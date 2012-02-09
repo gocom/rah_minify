@@ -20,16 +20,16 @@ p. The plugin itself doesn't do anything, not without YuiCompressor, and such. R
 
 p. The easiest way to install the plugin is by using "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path. If you haven't set it up, you can do it simply by creating a writeable directory, and then setting the path in your site's Preferences.
 
-# Grab a copy of "rah_minify":https://github.com/gocom/mck_minify/blob/master/rah_minify.php.
+# Grab a copy of "rah_minify.php":https://github.com/gocom/mck_minify/blob/master/rah_minify.php.
 # Copy and save it to your plugin cache directory (named as @rah_minify_v0.1.php@).
 
 p. Now the plugin is would be installed and activated, but as expected it's not doing anything. One thing you would want to do is to grab a copy of:
 
 * Yui Compressor's "yuicompressor.jar":https://github.com/yui/yuicompressor/.
 * Minify's "/CSS/Compressor.php":http://code.google.com/p/minify (Minify_CSS_Compressor class).
-* JSMin-PHP's "jsmin.php":":https://github.com/rgrove/jsmin-php.
+* JSMin-PHP's "jsmin.php":https://github.com/rgrove/jsmin-php.
 * Lessphp's "lessc.inc.php":https://github.com/leafo/lessphp.
 
 p. Download each, place them to your server (e.g. next to your /textpattern directory inside a directory named as minify). After all that byte fetching, that comes time to the configuring. Setting paths; to the required packages and the files that need to be minified. This all would happen from Textpattern's configuration file, @config.php@, located in Textpattern's installation directory.
 
-p. See "/config/config.php":https://github.com/gocom/rah_minify/blob/master/config/config.php for configuration example. The file is fitted with some comments and instructions. The example config.php file's contents would go to Textpattern installation's config.php file.
+p. See "config/config.php":https://github.com/gocom/rah_minify/blob/master/config/config.php file for a configuration example. The file is fitted with some comments and instructions. The example config.php file's contents would go to Textpattern installation's config.php file.
