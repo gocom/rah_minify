@@ -42,11 +42,14 @@
 		
 		foreach($rah_minify as $path => $to) {
 			
-			if(!file_exists($path) || !is_file($path)) {
+			if(!file_exists($path) || !is_file($path) || !is_readable($to)) {
 				continue;
 			}
 			
-			if(file_exists($to) && filemtime($to) >= filemtime($path)) {
+			if(
+				file_exists($to) && 
+				(!is_file($to) || !is_writable($to) || filemtime($to) >= filemtime($path))
+			) {
 				continue;
 			}
 		
