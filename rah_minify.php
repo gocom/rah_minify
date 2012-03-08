@@ -38,6 +38,8 @@
 		if($prefs['production_status'] == 'live' || empty($rah_minify))
 			return;
 		
+		$write = array();
+		
 		foreach($rah_minify as $path => $to) {
 			
 			if(!file_exists($path) || !is_file($path)) {
@@ -72,7 +74,11 @@
 				$data = Minify_CSS_Compressor::process($data);
 			}
 			
-			file_put_contents($to, $data);
+			$write[$to][] = $data;
+		}
+		
+		foreach($write as $to => $data) {
+			file_put_contents($to, implode(n, $data));
 		}
 	}
 ?>
