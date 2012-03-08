@@ -44,14 +44,23 @@
 		foreach($rah_minify as $path => $to) {
 			
 			if(!file_exists($path) || !is_file($path) || !is_readable($to)) {
+				trace_add('[rah_minify: '.basename($path).' source can not be read]');
 				continue;
 			}
 			
-			if(
-				file_exists($to) && 
-				(!is_file($to) || !is_writable($to) || filemtime($to) >= filemtime($path))
-			) {
-				continue;
+			if(file_exists($to)) {
+				
+				if(!is_file($to) || !is_writable($to)) {
+					trace_add('[rah_minify: '.basename($to).' is not writeable]');
+					continue;
+				}
+				
+				$time = filemtime($to);
+				
+				if($time >= filemtime($path)) {
+					trace_add('[rah_minify: '.basename($to).' ('.$time.') is up to date]');
+					continue;
+				}
 			}
 		
 			$ext = pathinfo($path, PATHINFO_EXTENSION);
@@ -83,6 +92,7 @@
 		
 		foreach($write as $to => $data) {
 			file_put_contents($to, implode(n, $data));
+			trace_add('[rah_minify: '.basename($to).' updated]');
 		}
 	}
 ?>
