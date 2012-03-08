@@ -29,13 +29,14 @@
 
 /**
  * Minify CSS and JavaScript files when the site is in debugging or testing mode.
+ * @param string $event Callback event
  */
 
-	function rah_minify() {
+	function rah_minify($event='') {
 		
-		global $rah_minify, $prefs;
+		global $rah_minify, $production_status;
 		
-		if($prefs['production_status'] == 'live' || empty($rah_minify))
+		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live'))
 			return;
 		
 		$write = array();
