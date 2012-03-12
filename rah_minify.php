@@ -21,10 +21,10 @@
  */
 
 	if(@txpinterface == 'public') {
-		register_callback('rah_minify', 'textpattern');
+		register_callback(array('rah_minify', 'get'), 'textpattern');
 	}
 	elseif(@txpinterface == 'admin') {
-		register_callback('rah_minify', 'admin_side', 'body_end');
+		register_callback(array('rah_minify', 'get'), 'admin_side', 'body_end');
 	}
 
 /**
@@ -32,26 +32,49 @@
  * @param string $event Callback event
  */
 
-	function rah_minify($event='') {
+class rah_minify {
+
+	private $stack = array();
+	private $read = array();
+	private $yui;
+	private $java;
+	
+	/**
+	 * Gets a new instance
+	 * @param string $event Callback event
+	 */
+
+	static public function get($event='') {
 		
 		global $rah_minify, $production_status;
 		
 		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live'))
 			return;
 		
-		$write = array();
-		
+		new rah_minify();
+	}
+
+	/**
+	 * Collects updated files
+	 */
+
+	public function __construct() {
+	
+		global $rah_minify;
+	
 		foreach($rah_minify as $path => $to) {
-			
+		
 			if(!file_exists($path) || !is_file($path) || !is_readable($to)) {
-				trace_add('[rah_minify: '.basename($path).' source can not be read]');
+				trace_add('[rah_minify: '.basename($path).' (source) can not be read]');
 				continue;
 			}
+			
+			$this->stack[$to][] = $path;
 			
 			if(file_exists($to)) {
 				
 				if(!is_file($to) || !is_writable($to)) {
-					trace_add('[rah_minify: '.basename($to).' is not writeable]');
+					trace_add('[rah_minify: '.basename($to).' (target) is not writeable]');
 					continue;
 				}
 				
@@ -62,37 +85,73 @@
 					continue;
 				}
 			}
+			
+			$this->read[] = $to;
+		}
 		
+		foreach($this->read as $stack) {
+			$this->process($stack, $this->stack[$stack]);
+		}
+		
+		if(defined('rah_minify_yui') && rah_minify_yui && file_exists(rah_minify_yui)) {
+			$this->yui = rah_minify_yui;
+		}
+		
+		$this->java = defined('rah_minify_java_cmd') ? 
+			rah_minify_java_cmd : 'export DYLD_LIBRARY_PATH=""; java';
+	}
+	
+	/**
+	 * Process and minify files
+	 * @param string $to
+	 * @param array $paths
+	 */
+	
+	private function process($to, $paths) {
+		
+		$write = array();
+		$less = NULL;
+		
+		foreach($paths as $path) {
 			$ext = pathinfo($path, PATHINFO_EXTENSION);
-			$data = file_get_contents($path);
+			$data = array();
 			
 			if($ext == 'js') {
 				
-				if(defined('rah_minify_yui') && file_exists(rah_minify_yui)) {
-					@exec('java -jar ' . rah_minify_yui . ' ' . $path, $data);
+				if($this->yui) {
+					@exec($this->java . ' -jar ' . $this->yui . ' ' . $path, $data);
+					$data = implode('', (array) $data);
 				}
 				
 				elseif(class_exists('JSMin')) {
-					$data = JSMin::minify($data);
+					$data = JSMin::minify(file_get_contents($path));
 				}
 			}
 			
-			if($ext == 'less' && class_exists('lessc')) {
-				$ext = 'css';
-				$less = new lessc($path);
-				$data = $less->parse();
+			else {
+				$data = file_get_contents($path);
 			}
 			
-			if($ext == 'css' && class_exists('Minify_CSS_Compressor')) {
-				$data = Minify_CSS_Compressor::process($data);
+			if($ext == 'less' && !$less && class_exists('lessc')) {
+				$less = new lessc();
 			}
 			
-			$write[$to][] = $data;
+			$write[] = (string) $data;
 		}
 		
-		foreach($write as $to => $data) {
-			file_put_contents($to, implode(n, $data));
-			trace_add('[rah_minify: '.basename($to).' updated]');
+		$write = implode(n, $write);
+		
+		if($less) {
+			$write = $less->parse($write);
 		}
+		
+		if(($less || $ext == 'css') && class_exists('Minify_CSS_Compressor')) {
+			$write = Minify_CSS_Compressor::process($write);
+		}
+		
+		file_put_contents($to, $write);
+		trace_add('[rah_minify: '.basename($to).' updated]');
 	}
+}
+
 ?>
