@@ -8,13 +8,13 @@
  * @license GNU GPLv2
  * @link https://github.com/gocom/rah_minify
  *
- * The plugin minifies CSS and JavaScript whiles while
- * the site is in debugging mode.
+ * The plugin minifies CSS and JavaScript files when
+ * the site is in debugging or testing mode.
  *
  * Requires Textpattern v4.4.1 or newer. Minify_CSS_Compressor class 
  * (Compressor.php) from "Minify" http://code.google.com/p/minify. Either
  * YUIcompressor (java) or JSMin-php https://github.com/rgrove/jsmin-php
- * 
+ *
  * Copyright (C) 2011 Jukka Svahn <http://rahforum.biz>
  * Licensed under GNU Genral Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
