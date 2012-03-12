@@ -89,8 +89,8 @@ class rah_minify {
 			$this->read[] = $to;
 		}
 		
-		foreach($this->read as $stack) {
-			$this->process($stack, $this->stack[$stack]);
+		if(!$this->read) {
+			return;
 		}
 		
 		if(defined('rah_minify_yui') && rah_minify_yui && file_exists(rah_minify_yui)) {
@@ -99,6 +99,10 @@ class rah_minify {
 		
 		$this->java = defined('rah_minify_java_cmd') ? 
 			rah_minify_java_cmd : 'export DYLD_LIBRARY_PATH=""; java';
+		
+		foreach($this->read as $stack) {
+			$this->process($stack, $this->stack[$stack]);
+		}
 	}
 	
 	/**
