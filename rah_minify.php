@@ -29,7 +29,6 @@
 
 /**
  * Minify CSS and JavaScript files when the site is in debugging or testing mode.
- * @param string $event Callback event
  */
 
 class rah_minify {
