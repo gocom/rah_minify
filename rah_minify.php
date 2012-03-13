@@ -145,7 +145,13 @@ class rah_minify {
 		$write = implode(n, $write);
 		
 		if($less) {
-			$write = $less->parse($write);
+			try {
+				@$write = $less->parse($write);
+			}
+			catch(exception $e) {
+				trace_add('[rah_minify: LESSPHP said "'.$e->getMessage().'"]');
+				return;
+			}
 		}
 		
 		if(($less || $ext == 'css') && class_exists('Minify_CSS_Compressor')) {
