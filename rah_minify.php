@@ -132,7 +132,7 @@ class rah_minify {
 				
 				else {
 					trace_add('[rah_minify: no JavaScript compressor configured]');
-					continue;
+					return;
 				}
 			}
 			
@@ -140,12 +140,11 @@ class rah_minify {
 				$data = file_get_contents($path);
 			}
 			
-			if($ext == 'less' && $less === NULL) {
+			if($ext == 'less' && !$less) {
 				
 				if(!class_exists('lessc')) {
-					$less = false;
-					trace_add('[rah_minify: class "lessc" is unavailable]');
-					continue;
+					trace_add('[rah_minify: lessc class is unavailable]');
+					return;
 				}
 				
 				$less = new lessc();
@@ -166,7 +165,13 @@ class rah_minify {
 			}
 		}
 		
-		if(($less || $ext == 'css') && class_exists('Minify_CSS_Compressor')) {
+		if($less || $ext == 'css') {
+		
+			if(!class_exists('Minify_CSS_Compressor')) {
+				trace_add('[rah_minify: Minify_CSS_Compressor class is unavailable]');
+				return;
+			}
+		
 			$write = Minify_CSS_Compressor::process($write);
 		}
 		
