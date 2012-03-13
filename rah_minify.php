@@ -116,7 +116,7 @@ class rah_minify {
 		$less = NULL;
 		
 		foreach($paths as $path) {
-			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 			$data = array();
 			
 			if($ext == 'js') {
