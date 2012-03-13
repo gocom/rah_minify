@@ -129,13 +129,25 @@ class rah_minify {
 				elseif(class_exists('JSMin')) {
 					$data = JSMin::minify(file_get_contents($path));
 				}
+				
+				else {
+					trace_add('[rah_minify: no JavaScript compressor configured]');
+					continue;
+				}
 			}
 			
 			else {
 				$data = file_get_contents($path);
 			}
 			
-			if($ext == 'less' && !$less && class_exists('lessc')) {
+			if($ext == 'less' && $less === NULL) {
+				
+				if(!class_exists('lessc')) {
+					$less = false;
+					trace_add('[rah_minify: class "lessc" is unavailable]');
+					continue;
+				}
+				
 				$less = new lessc();
 			}
 			
