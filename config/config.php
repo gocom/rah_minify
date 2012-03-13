@@ -12,13 +12,15 @@
 
 /**
  * Include required libraries, Minify's Minify_CSS_Compressor class 
- * (css/compress.php) and JSMin-php's JSmin class (jsmin.php).
- * @link http://code.google.com/p/minify
+ * (css/compress.php), JSMin-php's JSmin class (jsmin.php) and lessphp.
+ * @link https://github.com/mrclay/minify
  * @link https://github.com/rgrove/jsmin-php
+ * @link https://github.com/leafo/lessphp
  */
 
 include '/absolute/path/to/minify_css_compressor.php';
 include '/absolute/path/to/jsmin.php';
+include '/absolute/path/to/lessc.inc.php';
 
 /**
  * Path to YUIcompressor.jar
@@ -29,7 +31,7 @@ include '/absolute/path/to/jsmin.php';
 define('rah_minify_yui', '/absolute/path/to/yuicompressor.jar');
 
 /**
- * Sets the files that should be minified/compressed.
+ * Sets the files that should be processed and minified.
  * @global array $rah_minify
  */
 
