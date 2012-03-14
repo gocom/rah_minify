@@ -1,37 +1,44 @@
 h1. rah_minify
 
-p. Rah_minify is a wrapper-plugin for "Textpattern CMS":http://textpattern.com. It minifies specified flat JavaScript and CSS files using "YuiCompressor":https://github.com/yui/yuicompressor/ and "Minify's":http://code.google.com/p/minify CSS Compressor class while the site is in debugging mode. Alternatively it can use "JSMin-php":https://github.com/rgrove/jsmin-php if Java isn't available, and can offer lessphp.
+p. Rah_minify is a wrapper-plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files. Rah_minify supports and uses "YuiCompressor":https://github.com/yui/yuicompressor/, "Minify's CSS Compressor":https://github.com/mrclay/minify and "LESS":http://leafo.net/lessphp/ preprocessor.
 
 h2. Features
 
+* Automatically processes CSS, LESS and JavaScript files when the site is in testing or debugging mode, or when admin-side panel is accessed.
+* Processed files are cached and saved to the the disk and can be included in page templates as any other normal JavaScript or CSS file.
 * Minifies specified JavaScript files using YuiCompressor.
-* Minifies CSS files using "Minify":http://code.google.com/p/minify package's Minify_CSS_Compressor class.
+* Minifies CSS files using "Minify":https://github.com/mrclay/minify package's Minify_CSS_Compressor class.
 * If a CSS file ends with .less extension, runs the file with "lessphp":http://leafo.net/lessphp/.
 
 h2. Requirements
 
-* Textpattern
+* Textpattern 4.x
 * Java
 * PHP5 and access to exec.
+* "YuiCompressor":https://github.com/yui/yuicompressor/
+* "Lessphp":http://leafo.net/lessphp/
+* "Minify's Minify_CSS_Compressor class":https://github.com/mrclay/minify
 
 h2. Installation
 
 p. The plugin itself doesn't do anything, not without YuiCompressor, and such. Rah_minify basically is just a mere wrapper, a very simple integration that allows YuiCompressor, lessphp and such function with Textpattern.
 
-p. The easiest way to install the plugin is by using "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path. If you haven't set it up, you can do it simply by creating a writeable directory, and then setting the path in your site's Preferences.
+p. The easiest way to install the plugin is by using Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path. If you haven't set it up, you can do it simply by creating a writeable directory, and then setting the path in your site's Preferences.
 
 # Grab a copy of "rah_minify.php":https://github.com/gocom/mck_minify/blob/master/rah_minify.php.
 # Copy and save it to your plugin cache directory (named as @rah_minify_v0.1.php@).
 
-p. Now the plugin is installed and activated, but (as expected) it's not doing anything. To make more out of it, grab a copy of:
+h2. Configuring
 
-* Yui Compressor's "yuicompressor.jar":https://github.com/yui/yuicompressor/.
-* Minify's "/CSS/Compressor.php":http://code.google.com/p/minify (Minify_CSS_Compressor class).
-* JSMin-php's "jsmin.php":https://github.com/rgrove/jsmin-php.
-* Lessphp's "lessc.inc.php":https://github.com/leafo/lessphp.
+p. Now the plugin is installed and activated, but as you notice it's not anything as it's just a wrapper. To make the plugin to do it's stuff grab a copy:
 
-p. Download each, and place them to your server. Good place might be a directory named as @minify@, located next to your @/textpattern@ directory.
+* Yui Compressor's "yuicompressor.jar":https://github.com/yui/yuicompressor/. It will be responsible for compressing JavaScript code.
+* Minify's "/CSS/Compressor.php":https://github.com/mrclay/minify/blob/master/min/lib/Minify/CSS/Compressor.php (Minify_CSS_Compressor class). It will compress CSS files.
+* Lessphp's "lessc.inc.php":https://github.com/leafo/lessphp. It will process LESS syntax.
+* "JSMin-php's jsmin.php":https://github.com/rgrove/jsmin-php. Can be used as a fallback if Java isn't available.
 
-p. After all that byte fetching, comes the configuring. Setting paths; to the required packages and the files that need to be minified. This all would happen by adding some extra lines to Textpattern's configuration file, @config.php@, located in Textpattern's installation directory.
+p. Download each, and place them to your server. Good place might be a directory named as @minify@, placed next to your @/textpattern@ directory.
+
+p. After all that byte fetching, comes the configuring, including setting paths to the required packages and the files that need to be minified. This all would happen by adding some extra lines to Textpattern's configuration file, @config.php@, located in Textpattern's installation directory.
 
 p. See "config/config.php":https://github.com/gocom/rah_minify/blob/master/config/config.php file for a configuration example. The file is fitted with some comments and instructions. The example config.php file's contents would go to Textpattern installation's config.php file.
