@@ -1,6 +1,6 @@
 h1. rah_minify
 
-p. Rah_minify is a wrapper-plugin for "Textpattern CMS":http://textpattern.com. It minifies specified flat JavaScript and CSS files using "YuiCompressor":https://github.com/yui/yuicompressor/ and "Minify":http://code.google.com/p/minify's CSS Compressor class while the site is in debugging mode. Alternatively it can use "JSMin-php":https://github.com/rgrove/jsmin-php if Java isn't available, and can offer lessphp.
+p. Rah_minify is a wrapper-plugin for "Textpattern CMS":http://textpattern.com. It minifies specified flat JavaScript and CSS files using "YuiCompressor":https://github.com/yui/yuicompressor/ and "Minify's":http://code.google.com/p/minify CSS Compressor class while the site is in debugging mode. Alternatively it can use "JSMin-php":https://github.com/rgrove/jsmin-php if Java isn't available, and can offer lessphp.
 
 h2. Features
 
