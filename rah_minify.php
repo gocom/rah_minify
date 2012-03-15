@@ -70,6 +70,10 @@ class rah_minify {
 			
 			$this->stack[$to][] = $path;
 			
+			if(in_array($to, $this->read)) {
+				continue;
+			}
+			
 			if(file_exists($to)) {
 				
 				if(!is_file($to) || !is_writable($to)) {
