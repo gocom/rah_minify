@@ -77,7 +77,7 @@ bc. $rah_minify = array(
 	'script3.js' => 'scripts.min.js',
 );
 
-p. The above would join files @script1.js@, @script2.js@ and @script3.js@ to @scripts.min.js@. The files are joined in the order they are specified. Contents of the compressed @script.js@ will be at the beginning of @scripts.min.js@ while @script3.js@ will be at the end. This is to ensure that, for example, styles and JavaScript are defined in correct order.
+p. The above would join files @script1.js@, @script2.js@ and @script3.js@ to @scripts.min.js@. The files are joined in the order they are specified. Compressed contents of @script1.js@ will be at the beginning of @scripts.min.js@ while @script3.js@ will be at the end.
 
 h2. Debugging and activity log
 
