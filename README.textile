@@ -61,9 +61,7 @@ h2. Setting processed files
 
 p. As seen in the above config example, the @$rah_minify@ global variable contains an array of files that will be processed by rah_minify. The key is a path to the original file and the value is the location the processed file will be saved.
 
-bc. $rah_minify = array('originalFile' => 'savedTo', [...]);
-
-p. Note that any existing files the target location will be overwritten.
+bc. $rah_minify = array('originalFile' => 'saveProcessedTo', [...]);
 
 h2. Extension decides
 
