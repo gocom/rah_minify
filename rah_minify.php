@@ -66,7 +66,7 @@ class rah_minify {
 			$to = $this->format_path($to);
 			$path = $this->format_path($path);
 		
-			if(!file_exists($path) || !is_file($path)) {
+			if(!file_exists($path) || !is_file($path) || !is_readable($path)) {
 				trace_add('[rah_minify: '.basename($path).' (source) can not be read]');
 				continue;
 			}
@@ -80,23 +80,18 @@ class rah_minify {
 			if(file_exists($to)) {
 				
 				if(!is_file($to) || !is_writable($to) || !is_readable($to)) {
-					trace_add('[rah_minify: '.basename($to).' (target) is not writeable]');
+					trace_add('[rah_minify: '.basename($path).' -> '.basename($to).' (target) is not writeable]');
 					continue;
 				}
 				
 				$time = filemtime($to);
 				
 				if($time >= filemtime($path)) {
-					trace_add('[rah_minify: '.basename($to).' ('.$time.') is up to date]');
 					continue;
 				}
 			}
 			
 			$this->read[] = $to;
-		}
-		
-		if(!$this->read) {
-			return;
 		}
 		
 		if(defined('rah_minify_yui') && rah_minify_yui && file_exists(rah_minify_yui)) {
@@ -106,8 +101,15 @@ class rah_minify {
 		$this->java = defined('rah_minify_java_cmd') ? 
 			rah_minify_java_cmd : 'export DYLD_LIBRARY_PATH=""; java';
 		
-		foreach($this->read as $stack) {
-			$this->process($stack, $this->stack[$stack]);
+		foreach($this->stack as $to => $paths) {
+			
+			if(in_array($to, $this->read)) {
+				$this->process($to, $paths);
+			}
+			
+			else {
+				trace_add('[rah_minify: '.basename($to).' is up to date]');
+			}
 		}
 	}
 	
