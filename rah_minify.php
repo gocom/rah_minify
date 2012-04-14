@@ -182,7 +182,7 @@ class rah_minify {
 			$write = Minify_CSS_Compressor::process($write);
 		}
 		
-		file_put_contents($to, $write);
+		file_put_contents($to, trim($write));
 		trace_add('[rah_minify: '.basename($to).' updated]');
 	}
 	
