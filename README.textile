@@ -81,4 +81,4 @@ p. The above would join files @script1.js@, @script2.js@ and @script3.js@ to @sc
 
 h2. Debugging and activity log
 
-p. Rah_minify writes a log and debugging lines Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in debugging mode. Looking at the trace can give you an idea why a file isn't processed correctly.
+p. Rah_minify writes a log and debugging lines Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in debugging mode. Looking at the trace can give an idea why a file isn't processed correctly.
