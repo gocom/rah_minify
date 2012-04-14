@@ -23,22 +23,64 @@ h2. Installation
 
 p. The plugin itself doesn't do anything, not without YuiCompressor, and such. Rah_minify basically is just a mere wrapper, a very simple integration that allows YuiCompressor, lessphp and such function with Textpattern.
 
-p. The easiest way to install the plugin is by using Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path. If you haven't set it up, you can do it simply by creating a writeable directory, and then setting the path in your site's Preferences.
+p. The easiest way to install the plugin is by using Textpattern's "plugin cache directory":http://textpattern.net/wiki/index.php?title=Advanced_Preferences#Plugin_cache_directory_path. If you haven't set it up, you can do it simply by creating a directory, and then setting the path in your site's Preferences.
 
 # Grab a copy of "rah_minify.php":https://github.com/gocom/mck_minify/blob/master/rah_minify.php.
 # Copy and save it to your plugin cache directory (named as @rah_minify_v0.1.php@).
 
 h2. Configuring
 
-p. Now the plugin is installed and activated, but as you notice it's not anything as it's just a wrapper. To make the plugin to do it's stuff grab a copy:
+p. Now the plugin is installed and activated, but as you notice it's not doing anything as it's just a wrapper. To make the plugin to do it's stuff grab a copy of:
 
 * Yui Compressor's "yuicompressor.jar":https://github.com/yui/yuicompressor/. It will be responsible for compressing JavaScript code.
 * Minify's "/CSS/Compressor.php":https://github.com/mrclay/minify/blob/master/min/lib/Minify/CSS/Compressor.php (Minify_CSS_Compressor class). It will compress CSS files.
 * Lessphp's "lessc.inc.php":https://github.com/leafo/lessphp. It will process LESS syntax.
 * "JSMin-php's jsmin.php":https://github.com/rgrove/jsmin-php. Can be used as a fallback if Java isn't available.
 
-p. Download each, and place them to your server. Good place might be a directory named as @minify@, placed next to your @/textpattern@ directory.
+p. Download each, and throw them at your server. Good place might be a directory named as @minify@, placed next to your @/textpattern@ directory.
 
-p. After all that byte fetching, comes the configuring, including setting paths to the required packages and the files that need to be minified. This all would happen by adding some extra lines to Textpattern's configuration file, @config.php@, located in Textpattern's installation directory.
+p. After all that byte fetching, comes the configuring, including setting paths to the required packages and specifying files that need to be minified. This all would happen by adding some extra lines to Textpattern's configuration file, @config.php@, located in Textpattern's installation directory (usually @/textpattern/config.php@).
 
 p. See "config/config.php":https://github.com/gocom/rah_minify/blob/master/config/config.php file for a configuration example. The file is fitted with some comments and instructions. The example config.php file's contents would go to Textpattern installation's config.php file.
+
+p. Rah_minify's configuration would look something like following.
+
+bc.. define('rah_minify_yui', '/absolute/path/to/yuicompressor.jar');
+
+include '/absolute/path/to/minify_css_compressor.php';
+include '/absolute/path/to/jsmin.php';
+include '/absolute/path/to/lessc.inc.php';
+
+$rah_minify = array(
+	'/path/to/foo.js' => '/path/to/min.foo.js',
+	'/path/to/bar.css' => '/path/to/min.bar.css',
+	'/path/to/hf.less' => '/path/to/min.hf.css',
+);
+
+h2. Setting processed files
+
+p. As seen in the above config example, the @$rah_minify@ global variable contains an array of files that will be processed by rah_minify. The key is a path to the original file and the value is the location the processed file will be saved.
+
+bc. $rah_minify = array('originalFile' => 'savedTo', [...]);
+
+p. Note that the target location will be overwritten if a file exists in the specified location.
+
+h2. Extension decides
+
+p. Processing action is decided from the file extension. Files that end with @.less@ are processed as LESS, @.css@ as CSS and @.js@ as JavaScript. Files with any other extension fill be ignored.
+
+h2. Joining files
+
+p. Files with have same target location will be joined to a single file.
+
+bc. $rah_minify = array(
+	'script1.js' => 'scripts.min.js',
+	'script2.js' => 'scripts.min.js',
+	'script3.js' => 'scripts.min.js',
+);
+
+p. The above would join files @script1.js@, @script2.js@ and @script3.js@ to @scripts.min.js@. The files are joined in the order they are specified. Contents of the compressed @script.js@ will be at the beginning of @scripts.min.js@ while @script3.js@ will be at the end. This is to ensure that, for example, styles and JavaScript are defined in correct order.
+
+h2. Debugging and activity log
+
+p. Rah_minify writes a log and debugging lines Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in debugging mode. Looking at the trace can give you an idea why a file isn't processed correctly.
