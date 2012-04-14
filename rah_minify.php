@@ -66,7 +66,7 @@ class rah_minify {
 			$to = $this->format_path($to);
 			$path = $this->format_path($path);
 		
-			if(!file_exists($path) || !is_file($path) || !is_readable($to)) {
+			if(!file_exists($path) || !is_file($path)) {
 				trace_add('[rah_minify: '.basename($path).' (source) can not be read]');
 				continue;
 			}
@@ -79,7 +79,7 @@ class rah_minify {
 			
 			if(file_exists($to)) {
 				
-				if(!is_file($to) || !is_writable($to)) {
+				if(!is_file($to) || !is_writable($to) || !is_readable($to)) {
 					trace_add('[rah_minify: '.basename($to).' (target) is not writeable]');
 					continue;
 				}
