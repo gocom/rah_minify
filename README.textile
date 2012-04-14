@@ -63,7 +63,7 @@ p. As seen in the above config example, the @$rah_minify@ global variable contai
 
 bc. $rah_minify = array('originalFile' => 'savedTo', [...]);
 
-p. Note that the target location will be overwritten if a file exists in the specified location.
+p. Note that any existing files the target location will be overwritten.
 
 h2. Extension decides
 
