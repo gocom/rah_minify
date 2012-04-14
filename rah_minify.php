@@ -62,6 +62,9 @@ class rah_minify {
 		global $rah_minify;
 	
 		foreach($rah_minify as $path => $to) {
+			
+			$to = $this->format_path($to);
+			$path = $this->format_path($path);
 		
 			if(!file_exists($path) || !is_file($path) || !is_readable($to)) {
 				trace_add('[rah_minify: '.basename($path).' (source) can not be read]');
@@ -181,6 +184,25 @@ class rah_minify {
 		
 		file_put_contents($to, $write);
 		trace_add('[rah_minify: '.basename($to).' updated]');
+	}
+	
+	/**
+	 * Formats paths
+	 * @param string $path
+	 * @return string Path
+	 */
+	
+	private function format_path($path) {
+		
+		if(strpos($path, './') === 0) {
+			return txpath . '/' . substr($path, 2);
+		}
+		
+		if(strpos($path, '../') === 0) {
+			return dirname(txpath) . '/' . substr($path, 3);
+		}
+		
+		return $path;
 	}
 }
 
