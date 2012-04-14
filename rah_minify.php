@@ -115,6 +115,7 @@ class rah_minify {
 	 * Process and minify files
 	 * @param string $to
 	 * @param array $paths
+	 * @return bool
 	 */
 	
 	private function process($to, $paths) {
@@ -139,7 +140,7 @@ class rah_minify {
 				
 				else {
 					trace_add('[rah_minify: no JavaScript compressor configured]');
-					return;
+					return false;
 				}
 			}
 			
@@ -151,7 +152,7 @@ class rah_minify {
 				
 				if(!class_exists('lessc')) {
 					trace_add('[rah_minify: lessc class is unavailable]');
-					return;
+					return false;
 				}
 				
 				$less = new lessc();
@@ -168,7 +169,7 @@ class rah_minify {
 			}
 			catch(exception $e) {
 				trace_add('[rah_minify: LESSPHP said "'.$e->getMessage().'"]');
-				return;
+				return false;
 			}
 		}
 		
@@ -176,14 +177,19 @@ class rah_minify {
 		
 			if(!class_exists('Minify_CSS_Compressor')) {
 				trace_add('[rah_minify: Minify_CSS_Compressor class is unavailable]');
-				return;
+				return false;
 			}
 		
 			$write = Minify_CSS_Compressor::process($write);
 		}
 		
-		file_put_contents($to, trim($write));
-		trace_add('[rah_minify: '.basename($to).' updated]');
+		if(file_put_contents($to, trim($write)) !== false) {
+			trace_add('[rah_minify: '.basename($to).' updated]');
+			return true;
+		}
+		
+		trace_add('[rah_minify: writing to '.basename($to).' failed]');
+		return false;
 	}
 	
 	/**
