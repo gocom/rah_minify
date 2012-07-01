@@ -21,10 +21,10 @@
  */
 
 	if(@txpinterface == 'public') {
-		register_callback(array('rah_minify', 'get'), 'textpattern');
+		register_callback(array('rah_minify', 'handler'), 'textpattern');
 	}
 	elseif(@txpinterface == 'admin') {
-		register_callback(array('rah_minify', 'get'), 'admin_side', 'body_end');
+		register_callback(array('rah_minify', 'handler'), 'admin_side', 'body_end');
 	}
 
 /**
@@ -33,24 +33,38 @@
 
 class rah_minify {
 
+	static public $instance = NULL;
 	private $stack = array();
 	private $read = array();
 	private $yui;
 	private $java;
 	
 	/**
-	 * Gets a new instance
-	 * @param string $event Callback event
+	 * Gets an instance of the class
 	 */
 
-	static public function get($event='') {
+	static public function get() {
+		
+		if(self::$instance === NULL) {
+			self::$instance = new rah_minify();
+		}
+		
+		return self::$instance;
+	}
+	
+	/** 
+	 * Handles callback
+	 * @param string $event Callback event
+	 */
+	
+	static public function handler($event='') {
 		
 		global $rah_minify, $production_status;
 		
 		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live'))
 			return;
 		
-		new rah_minify();
+		self::get();
 	}
 
 	/**
