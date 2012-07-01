@@ -33,11 +33,35 @@
 
 class rah_minify {
 
+	/**
+	 * @var obj Stores instances
+	 */
+
 	static public $instance = NULL;
+	
+	/**
+	 * @var array Stack of queued files for processing
+	 */
+	
 	private $stack = array();
+	
+	/**
+	 * @var array Files available for reading
+	 */
+	
 	private $read = array();
-	private $yui;
-	private $java;
+	
+	/**
+	 * @var string Path to YUIcompressor
+	 */
+	
+	public $yui;
+	
+	/**
+	 * @var string Java command
+	 */
+	
+	public $java;
 	
 	/**
 	 * Gets an instance of the class
