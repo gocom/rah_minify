@@ -149,6 +149,10 @@ class rah_minify {
 				trace_add('[rah_minify: '.basename($to).' is up to date]');
 			}
 		}
+		
+		if($this->read) {
+			update_lastmod();
+		}
 	}
 	
 	/**
