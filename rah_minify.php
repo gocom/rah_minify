@@ -20,12 +20,8 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-	if(@txpinterface == 'public') {
-		register_callback(array('rah_minify', 'handler'), 'textpattern');
-	}
-	elseif(@txpinterface == 'admin') {
-		register_callback(array('rah_minify', 'handler'), 'admin_side', 'body_end');
-	}
+	register_callback(array('rah_minify', 'handler'), 'textpattern');
+	register_callback(array('rah_minify', 'handler'), 'admin_side', 'body_end');
 
 /**
  * Minify CSS and JavaScript files when the site is in debugging or testing mode.
