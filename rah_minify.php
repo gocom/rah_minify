@@ -128,7 +128,7 @@ class rah_minify {
 			$this->read[] = $to;
 		}
 		
-		if(defined('rah_minify_yui') && rah_minify_yui && file_exists(rah_minify_yui)) {
+		if(defined('rah_minify_yui') && rah_minify_yui && function_exists('exec') && file_exists(rah_minify_yui)) {
 			$this->yui = rah_minify_yui;
 		}
 		
@@ -168,7 +168,7 @@ class rah_minify {
 			
 			if($ext == 'js') {
 				
-				if($this->yui) {
+				if($this->yui && $this->java) {
 					@exec($this->java . ' -jar ' . $this->yui . ' ' . $path, $data);
 					$data = implode('', (array) $data);
 				}
