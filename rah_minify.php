@@ -239,7 +239,7 @@ class rah_minify {
 		}
 		
 		clearstatcache();
-		$to = $v.'/'.basename($to, $ext).'.'.filemtime($to).'.'.$ext;
+		$to = $v.'/'.basename($to, '.'.$ext).'.v'.filemtime($to).'.'.$ext;
 		
 		if(file_exists($to)) {
 			trace_add('[rah_minify: versioned '.basename($to).' already exists]');
