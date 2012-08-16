@@ -60,6 +60,12 @@ class rah_minify {
 	public $java;
 	
 	/**
+	 * @var bool Turns versioning on
+	 */
+	
+	public $versions = false;
+	
+	/**
 	 * Gets an instance of the class
 	 */
 
@@ -130,6 +136,10 @@ class rah_minify {
 		
 		if(defined('rah_minify_yui') && rah_minify_yui && function_exists('exec') && file_exists(rah_minify_yui)) {
 			$this->yui = rah_minify_yui;
+		}
+		
+		if(defined('rah_minify_versions')) {
+			$this->versions = (bool) rah_minify_versions;
 		}
 		
 		$this->java = defined('rah_minify_java_cmd') ? 
@@ -231,15 +241,13 @@ class rah_minify {
 		
 		touch($to);
 		trace_add('[rah_minify: '.basename($to).' updated]');
-		
-		$v = dirname($to).'/v';
 			
-		if(!file_exists($v) || !is_writable($v) || !is_dir($v)) {
+		if(!$this->versions) {
 			return;
 		}
 		
 		clearstatcache();
-		$to = $v.'/'.basename($to, '.'.$ext).'.v'.filemtime($to).'.'.$ext;
+		$to = dirname($to).'/v.'.basename($to, '.'.$ext).'.'.filemtime($to).'.'.$ext;
 		
 		if(file_exists($to)) {
 			trace_add('[rah_minify: versioned '.basename($to).' already exists]');
