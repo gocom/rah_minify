@@ -222,12 +222,34 @@ class rah_minify {
 			$write = Minify_CSS_Compressor::process($write);
 		}
 		
-		if(file_put_contents($to, trim($write)) !== false) {
-			trace_add('[rah_minify: '.basename($to).' updated]');
+		$write = trim($write);
+		
+		if(file_put_contents($to, $write) === false) {
+			trace_add('[rah_minify: writing to '.basename($to).' failed]');
 			return;
 		}
 		
-		trace_add('[rah_minify: writing to '.basename($to).' failed]');
+		touch($to);
+		trace_add('[rah_minify: '.basename($to).' updated]');
+		
+		$v = dirname($to).'/v';
+			
+		if(!file_exists($v) || !is_writable($v) || !is_dir($v)) {
+			return;
+		}
+		
+		clearstatcache();
+		$to = $v.'/'.basename($to, $ext).'.'.filemtime($to).'.'.$ext;
+		
+		if(file_exists($to)) {
+			trace_add('[rah_minify: versioned '.basename($to).' already exists]');
+			return;
+		}
+		
+		if(file_put_contents($to, $write) === false) {
+			trace_add('[rah_minify: writing to '.basename($to).' failed]');
+			return;
+		}
 	}
 	
 	/**
