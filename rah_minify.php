@@ -20,12 +20,7 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-	register_callback(array('rah_minify', 'handler'), 'textpattern');
-	register_callback(array('rah_minify', 'handler'), 'admin_side', 'body_end');
-
-/**
- * Minify CSS and JavaScript files when the site is in debugging or testing mode.
- */
+	rah_minify::get();
 
 class rah_minify {
 
@@ -78,26 +73,35 @@ class rah_minify {
 		return self::$instance;
 	}
 	
+	/**
+	 * Constructor
+	 */
+	
+	public function __construct() {
+		global $event;
+		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
+	}
+	
 	/** 
 	 * Handles callback
 	 * @param string $event Callback event
 	 */
 	
-	static public function handler($event='') {
+	public function handler($event='') {
 		
 		global $rah_minify, $production_status;
 		
 		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live'))
 			return;
 		
-		self::get();
+		$this->collect_files();
 	}
 
 	/**
 	 * Collects updated files
 	 */
 
-	public function __construct() {
+	public function collect_files() {
 	
 		global $rah_minify;
 	
