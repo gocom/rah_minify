@@ -9,7 +9,7 @@
 	<author>Jukka Svahn</author>
 	<author_uri>http://rahforum.biz</author_uri>
 
-	<order>5</order>
+	<order>1</order>
 	<flags>0</flags>
 
 	<help file="./README.textile" />
