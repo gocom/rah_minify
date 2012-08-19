@@ -24,6 +24,8 @@
 
 class rah_minify {
 	
+	static public $version = '0.1';
+	
 	/**
 	 * @var array Stack of queued files for processing
 	 */
@@ -55,11 +57,59 @@ class rah_minify {
 	public $versions = false;
 	
 	/**
+	 * Installer
+	 * @param string $event Admin-side event.
+	 * @param string $step Admin-side, plugin-lifecycle step.
+	 */
+
+	static public function install($event='', $step='') {
+		
+		global $prefs;
+		
+		if($step == 'deleted') {
+			
+			safe_delete(
+				'txp_prefs',
+				"name like 'rah\_minify\_%'"
+			);
+			
+			return;
+		}
+		
+		if((string) get_pref(__CLASS__.'_version') === self::$version) {
+			return;
+		}
+		
+		$position = 250;
+		
+		foreach(
+			array(
+				'yui' => array('text_input', ''),
+				'java' => array('text_input', 'java'),
+				'versions' => array('yesnoradio', 0),
+			) as $name => $val
+		) {
+			$n =  __CLASS__.'_'.$name;
+			
+			if(!isset($prefs[$n])) {
+				set_pref($n, $val[1], __CLASS__, PREF_ADVANCED, $val[0], $position);
+				$prefs[$n] = $val[1];
+			}
+			
+			$position++;
+		}
+		
+		set_pref(__CLASS__.'_version', self::$version, __CLASS__, PREF_HIDDEN, '', PREF_PRIVATE);
+		$prefs[__CLASS__.'_version'] = self::$version;
+	}
+	
+	/**
 	 * Constructor
 	 */
 	
 	public function __construct() {
 		global $event;
+		register_callback(array(__CLASS__, 'install'), 'plugin_lifecycle.'.__CLASS__);
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
 	}
 	
@@ -72,19 +122,17 @@ class rah_minify {
 		
 		global $rah_minify, $production_status;
 		
-		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live'))
+		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live')) {
 			return;
-		
-		if(defined('rah_minify_yui') && rah_minify_yui && function_exists('exec')) {
-			$this->yui = rah_minify_yui;
 		}
 		
-		if(defined('rah_minify_versions')) {
-			$this->versions = (bool) rah_minify_versions;
+		foreach(array('yui', 'java', 'field') as $name) {
+			$this->$name = get_pref(__CLASS__.'_'.$name);
 		}
 		
-		$this->java = defined('rah_minify_java_cmd') ? 
-			rah_minify_java_cmd : 'export DYLD_LIBRARY_PATH=""; java';
+		if(!$this->java || !$this->yui || !function_exists('exec')) {
+			$this->yui = null;
+		}
 		
 		$this->collect_files();
 	}
