@@ -282,7 +282,7 @@ class rah_minify {
 	protected function compress_js() {
 		
 		if($this->yui) {
-			file_put_contents($this->target, implode(n, $this->input));
+			file_put_contents($this->target, $this->input);
 			exec($this->java . ' -jar ' . $this->yui . ' ' . $this->target, $data);
 			$this->output = implode('', (array) $data);
 		}
