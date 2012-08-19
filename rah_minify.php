@@ -270,15 +270,20 @@ class rah_minify {
 		clearstatcache();
 		
 		$ext = pathinfo($this->target, PATHINFO_EXTENSION);
-		$to = dirname($this->target).'/v.'.basename($this->target, '.'.$ext).'.'.filemtime($this->target).'.'.$ext;
+		$name = 'v.'.basename($this->target, '.'.$ext).'.'.filemtime($this->target).'.'.$ext;
+		$to = dirname($this->target).'/'.$name;
 		
 		if(file_exists($to)) {
-			trace_add('[rah_minify: versioned '.basename($to).' already exists]');
+			trace_add('[rah_minify: versioned '.$name.' already exists]');
+			return;
 		}
 		
-		else if(file_put_contents($to, $this->output) === false) {
-			trace_add('[rah_minify: writing to '.basename($to).' failed]');
+		if(file_put_contents($to, $this->output) === false) {
+			trace_add('[rah_minify: writing to '.$name.' failed]');
+			return;
 		}
+		
+		trace_add('[rah_minify: created '.$name.']');
 	}
 	
 	/**
