@@ -208,6 +208,7 @@ class rah_minify {
 				$this->source = $paths;
 				$this->target = $to;
 				$this->process();
+				$this->create_version();
 			}
 			
 			else {
@@ -248,7 +249,6 @@ class rah_minify {
 		
 		touch($this->target);
 		trace_add('[rah_minify: '.basename($this->target).' updated]');
-		$this->create_version();
 	}
 	
 	/**
