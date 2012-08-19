@@ -48,7 +48,7 @@ class rah_minify {
 	 * @var string Java command
 	 */
 	
-	public $java;
+	public $java = 'export DYLD_LIBRARY_PATH=""; java';
 	
 	/**
 	 * @var bool Turns versioning on
@@ -108,8 +108,6 @@ class rah_minify {
 		
 		foreach(
 			array(
-				'yui' => array('text_input', ''),
-				'java' => array('text_input', 'java'),
 				'versions' => array('yesnoradio', 0),
 			) as $name => $val
 		) {
@@ -150,8 +148,16 @@ class rah_minify {
 			return;
 		}
 		
-		foreach(array('yui', 'java', 'versions') as $name) {
+		foreach(array('versions') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name);
+		}
+		
+		if(defined('rah_minify_yui')) {
+			$this->yui = rah_minify_yui;
+		}
+		
+		if(defined('rah_minify_java')) {
+			$this->java = rah_minify_java;
 		}
 		
 		if(!$this->java || !$this->yui || !function_exists('exec')) {
