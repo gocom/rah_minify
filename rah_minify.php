@@ -30,13 +30,13 @@ class rah_minify {
 	 * @var array Stack of queued files for processing
 	 */
 	
-	private $stack = array();
+	protected $stack = array();
 	
 	/**
 	 * @var array Files available for reading
 	 */
 	
-	private $read = array();
+	protected $read = array();
 	
 	/**
 	 * @var string Path to YUIcompressor
@@ -342,7 +342,7 @@ class rah_minify {
 	 * @return string Path
 	 */
 	
-	private function format_path($path) {
+	protected function format_path($path) {
 		
 		if(strpos($path, './') === 0) {
 			return txpath . '/' . substr($path, 2);
