@@ -57,6 +57,30 @@ class rah_minify {
 	public $versions = false;
 	
 	/**
+	 * @var string Current file path
+	 */
+	
+	protected $source;
+	
+	/**
+	 * @var string Target output file
+	 */
+	
+	protected $target;
+	
+	/**
+	 * @var string Current files compressed output
+	 */
+	
+	protected $output;
+	
+	/**
+	 * @var string Incoming data for compression
+	 */
+	
+	protected $input;
+	
+	/**
 	 * Installer
 	 * @param string $event Admin-side event.
 	 * @param string $step Admin-side, plugin-lifecycle step.
@@ -181,7 +205,9 @@ class rah_minify {
 		foreach($this->stack as $to => $paths) {
 			
 			if(in_array($to, $this->read)) {
-				$this->process($to, $paths);
+				$this->source = $paths;
+				$this->target = $to;
+				$this->process();
 			}
 			
 			else {
@@ -196,101 +222,118 @@ class rah_minify {
 	
 	/**
 	 * Process and minify files
-	 * @param string $to
-	 * @param array $paths
 	 */
 	
-	private function process($to, $paths) {
+	protected function process() {
 		
-		$write = array();
-		$less = NULL;
-		
-		foreach($paths as $path) {
-			$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-			$data = array();
-			
-			if($ext == 'js') {
-				
-				if($this->yui && $this->java) {
-					@exec($this->java . ' -jar ' . $this->yui . ' ' . $path, $data);
-					$data = implode('', (array) $data);
-				}
-				
-				elseif(class_exists('JSMin')) {
-					$data = JSMin::minify(file_get_contents($path));
-				}
-				
-				else {
-					trace_add('[rah_minify: no JavaScript compressor configured]');
-					return;
-				}
-			}
-			
-			else {
-				$data = file_get_contents($path);
-			}
-			
-			if($ext == 'less' && !$less) {
-				
-				if(!class_exists('lessc')) {
-					trace_add('[rah_minify: lessc class is unavailable]');
-					return;
-				}
-				
-				$less = new lessc();
-			}
-			
-			$write[] = (string) $data;
+		foreach((array) $this->source as $path) {
+			$data[] = file_get_contents($path);
 		}
 		
-		$write = implode(n, $write);
+		$this->input = implode(n, $data);
+		$this->output = '';
 		
-		if($less) {
-			try {
-				@$write = $less->parse($write);
-			}
-			catch(exception $e) {
-				trace_add('[rah_minify: LESSPHP said "'.$e->getMessage().'"]');
-				return;
-			}
+		$method = 'compress_'.strtolower(pathinfo($path, PATHINFO_EXTENSION));
+		
+		if(method_exists($this, $method)) {
+			$this->$method();
 		}
 		
-		if($less || $ext == 'css') {
+		$this->output = trim($this->output);
 		
-			if(!class_exists('Minify_CSS_Compressor')) {
-				trace_add('[rah_minify: Minify_CSS_Compressor class is unavailable]');
-				return;
-			}
-		
-			$write = Minify_CSS_Compressor::process($write);
-		}
-		
-		$write = trim($write);
-		
-		if(file_put_contents($to, $write) === false) {
+		if(file_put_contents($this->target, $this->output) === false) {
 			trace_add('[rah_minify: writing to '.basename($to).' failed]');
 			return;
 		}
 		
-		touch($to);
-		trace_add('[rah_minify: '.basename($to).' updated]');
-			
+		touch($this->target);
+		trace_add('[rah_minify: '.basename($this->target).' updated]');
+		$this->create_version();
+	}
+	
+	/**
+	 * Versioning
+	 */
+	
+	protected function create_version() {
+		
 		if(!$this->versions) {
 			return;
 		}
 		
 		clearstatcache();
-		$to = dirname($to).'/v.'.basename($to, '.'.$ext).'.'.filemtime($to).'.'.$ext;
+		
+		$ext = pathinfo($this->target, PATHINFO_EXTENSION);
+		$to = dirname($this->target).'/v.'.basename($this->target, '.'.$ext).'.'.filemtime($this->target).'.'.$ext;
 		
 		if(file_exists($to)) {
 			trace_add('[rah_minify: versioned '.basename($to).' already exists]');
+		}
+		
+		else if(file_put_contents($to, $write) === false) {
+			trace_add('[rah_minify: writing to '.basename($to).' failed]');
+		}
+	}
+	
+	/**
+	 * Compress JavaScript
+	 */
+	
+	protected function compress_js() {
+		
+		if($this->yui) {
+			file_put_contents($this->target, implode(n, $this->input));
+			exec($this->java . ' -jar ' . $this->yui . ' ' . $this->target, $data);
+			$this->output = implode('', (array) $data);
+		}
+		
+		elseif(class_exists('JSMin')) {
+			$this->output = JSMin::minify($this->input);
+		}
+		
+		else {
+			trace_add('[rah_minify: no JavaScript compressor configured]');
+		}
+	}
+	
+	/**
+	 * Compress CSS
+	 */
+	
+	protected function compress_css() {
+		
+		if(!class_exists('Minify_CSS_Compressor')) {
+			trace_add('[rah_minify: Minify_CSS_Compressor class is unavailable]');
 			return;
 		}
 		
-		if(file_put_contents($to, $write) === false) {
-			trace_add('[rah_minify: writing to '.basename($to).' failed]');
+		$this->output = Minify_CSS_Compressor::process($this->input);
+	}
+	
+	/**
+	 * Process and compress LESS
+	 */
+	
+	protected function compress_less() {
+	
+		if(!class_exists('lessc')) {
+			trace_add('[rah_minify: lessc class is unavailable]');
 			return;
 		}
+		
+		$less = new lessc();
+		
+		try {
+			$this->output = $less->parse($this->input);
+		}
+		
+		catch(exception $e) {
+			trace_add('[rah_minify: LESSPHP said "'.$e->getMessage().'"]');
+			return;
+		}
+		
+		$this->input = $this->output;
+		$this->compress_css();
 	}
 	
 	/**
