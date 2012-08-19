@@ -276,7 +276,7 @@ class rah_minify {
 			trace_add('[rah_minify: versioned '.basename($to).' already exists]');
 		}
 		
-		else if(file_put_contents($to, $write) === false) {
+		else if(file_put_contents($to, $this->output) === false) {
 			trace_add('[rah_minify: writing to '.basename($to).' failed]');
 		}
 	}
