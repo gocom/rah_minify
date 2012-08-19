@@ -126,7 +126,7 @@ class rah_minify {
 			return;
 		}
 		
-		foreach(array('yui', 'java', 'field') as $name) {
+		foreach(array('yui', 'java', 'versions') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name);
 		}
 		
