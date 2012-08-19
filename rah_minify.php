@@ -75,6 +75,17 @@ class rah_minify {
 		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live'))
 			return;
 		
+		if(defined('rah_minify_yui') && rah_minify_yui && function_exists('exec')) {
+			$this->yui = rah_minify_yui;
+		}
+		
+		if(defined('rah_minify_versions')) {
+			$this->versions = (bool) rah_minify_versions;
+		}
+		
+		$this->java = defined('rah_minify_java_cmd') ? 
+			rah_minify_java_cmd : 'export DYLD_LIBRARY_PATH=""; java';
+		
 		$this->collect_files();
 	}
 
@@ -118,17 +129,6 @@ class rah_minify {
 			
 			$this->read[] = $to;
 		}
-		
-		if(defined('rah_minify_yui') && rah_minify_yui && function_exists('exec') && file_exists(rah_minify_yui)) {
-			$this->yui = rah_minify_yui;
-		}
-		
-		if(defined('rah_minify_versions')) {
-			$this->versions = (bool) rah_minify_versions;
-		}
-		
-		$this->java = defined('rah_minify_java_cmd') ? 
-			rah_minify_java_cmd : 'export DYLD_LIBRARY_PATH=""; java';
 		
 		foreach($this->stack as $to => $paths) {
 			
