@@ -282,9 +282,11 @@ class rah_minify {
 	protected function compress_js() {
 		
 		if($this->yui) {
-			file_put_contents($this->target, $this->input);
-			exec($this->java . ' -jar ' . $this->yui . ' ' . $this->target, $data);
-			$this->output = implode('', (array) $data);
+			if(file_put_contents($this->target, $this->input) !== false) {
+				$data = array();
+				exec($this->java . ' -jar ' . $this->yui . ' ' . $this->target, $data);
+				$this->output = implode('', (array) $data);
+			}
 		}
 		
 		elseif(class_exists('JSMin')) {
