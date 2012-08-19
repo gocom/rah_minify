@@ -20,15 +20,9 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-	rah_minify::get();
+	new rah_minify();
 
 class rah_minify {
-
-	/**
-	 * @var obj Stores instances
-	 */
-
-	static public $instance = NULL;
 	
 	/**
 	 * @var array Stack of queued files for processing
@@ -59,19 +53,6 @@ class rah_minify {
 	 */
 	
 	public $versions = false;
-	
-	/**
-	 * Gets an instance of the class
-	 */
-
-	static public function get() {
-		
-		if(self::$instance === NULL) {
-			self::$instance = new rah_minify();
-		}
-		
-		return self::$instance;
-	}
 	
 	/**
 	 * Constructor
