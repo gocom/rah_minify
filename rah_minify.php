@@ -249,7 +249,7 @@ class rah_minify {
 		$this->output = trim($this->output);
 		
 		if(file_put_contents($this->target, $this->output) === false) {
-			trace_add('[rah_minify: writing to '.basename($to).' failed]');
+			trace_add('[rah_minify: writing to '.basename($this->target).' failed]');
 			return;
 		}
 		
