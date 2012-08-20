@@ -23,11 +23,36 @@ p. Todo.
 
 h3. List of compressed files
 
-p. Todo.
+p. This setting sets the JavaScript and CSS files that are being compressed by rah_minify. The setting takes an list of absolute file system paths, formatted in source and target pairs, pairs separated by line breaks.
+
+bc. source target
+source target [\n...]
+
+p. Where the source is the file that is being compressed and the target is the location where the compressed file is written to. The target and the source paths are separated by a space (U+0020). Compressed files are separated by line breaks (a single UNIX style linefeed).
+
+p. Using relative paths is possible too. A source or a target path that starts with @./@ or @../@ will be relative to the Textpattern's installation directory (e.g. @./textpattern@).
+
+p. The following would compress files named @main.js@, @extra.js@ and @default.css@ to @main.min.js@, @extra.min.js@ and @default.min.css@ respectfully, written to the same directory as the original source file. The files would be located in a @assets@ directory placed to the site's root, the same directory containing the @textpattern@ directory.
+
+bc. ../assets/main.js ../assets/main.min.js
+../assets/extra.js ../assets/extra.min.js
+../assets/default.css ../assets/default.min.css
 
 h3. Create optional timestamped, versioned files?
 
-p. Todo.
+p. If set to Yes, additional timestamped files are created each time when a site's asset file is compressed. These files act as versions, written and modified just once. These files offer an way to "optimize caching of static resources":https://developers.google.com/speed/docs/best-practices/caching.
+
+p. These timestamped versions of the assets are written to the same directory as the target file, the compressed version of the source file. These files follow the following naming pattern:
+
+bc. v.{targetName}.{timestamp}.{targetExtension}
+
+p. Where in the {targetName} is the name of the target file (e.g. main.min), the {timestamp} is a Unix timestamp (e.g. 1345269546) and the {targetExtension} is the target files extension (e.g. css or js). The timestamp included in the filename is same as the target file's last modification date.
+
+p. Consider the following file pair:
+
+bc. ../assets/main.js ../assets/main.min.js
+
+p. For the above the created versioned file would be named as @v.main.min.1345269546.js@, written to the same assets directory.
 
 h2. Setting processed files
 
