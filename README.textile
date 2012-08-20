@@ -12,12 +12,8 @@ h2. Features
 
 h2. Requirements
 
-* Textpattern 4.x
-* Java
-* PHP5 and access to exec.
-* "YuiCompressor":https://github.com/yui/yuicompressor/
-* "Lessphp":http://leafo.net/lessphp/
-* "Minify's Minify_CSS_Compressor class":https://github.com/mrclay/minify
+* Textpattern 4.5.0
+* PHP 5.2
 
 h2. Installation
 
