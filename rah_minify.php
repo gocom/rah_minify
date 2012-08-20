@@ -41,7 +41,7 @@ class rah_minify {
 	 * @var string Path to YUIcompressor
 	 */
 	
-	public $yui;
+	public $yui = '';
 	
 	/**
 	 * @var string Java command
@@ -149,7 +149,7 @@ class rah_minify {
 		}
 		
 		foreach(array('versions', 'files', 'yui', 'java') as $name) {
-			$this->$name = get_pref(__CLASS__.'_'.$name);
+			$this->$name = get_pref(__CLASS__.'_'.$name, $this->$name);
 		}
 		
 		if(trim($this->files)) {
