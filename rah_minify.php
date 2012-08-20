@@ -148,7 +148,7 @@ class rah_minify {
 			return;
 		}
 		
-		foreach(array('versions', 'files') as $name) {
+		foreach(array('versions', 'files', 'yui', 'java') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name);
 		}
 		
@@ -168,14 +168,6 @@ class rah_minify {
 		
 		if(!$this->files) {
 			return;
-		}
-		
-		if(defined('rah_minify_yui')) {
-			$this->yui = rah_minify_yui;
-		}
-		
-		if(defined('rah_minify_java')) {
-			$this->java = rah_minify_java;
 		}
 		
 		if(!$this->java || !$this->yui || !function_exists('exec')) {
