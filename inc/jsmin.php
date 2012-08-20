@@ -46,7 +46,7 @@
  * @link https://github.com/rgrove/jsmin-php
  */
 
-class JSMin {
+class rah_minify_JSMin {
   const ORD_LF            = 10;
   const ORD_SPACE         = 32;
   const ACTION_KEEP_A     = 1;
@@ -74,7 +74,7 @@ class JSMin {
    * @return string
    */
   public static function minify($js) {
-    $jsmin = new JSMin($js);
+    $jsmin = new rah_minify_JSMin($js);
     return $jsmin->min();
   }
 
@@ -100,7 +100,7 @@ class JSMin {
    *
    * @uses next()
    * @uses get()
-   * @throws JSMinException If parser errors are found:
+   * @throws rah_minify_JSMinException If parser errors are found:
    *         - Unterminated string literal
    *         - Unterminated regular expression set in regex literal
    *         - Unterminated regular expression literal
@@ -131,7 +131,7 @@ class JSMin {
 
             //if (ord($this->a) <= self::ORD_LF) {
             if ($this->a === null) {
-              throw new JSMinException('Unterminated string literal.');
+              throw new rah_minify_JSMinException('Unterminated string literal.');
             }
 
             if ($this->a === '\\') {
@@ -172,7 +172,7 @@ class JSMin {
                   $this->a       = $this->get();
                 //} elseif (ord($this->a) <= self::ORD_LF) {
                 } elseif ($this->a === null) {
-                  throw new JSMinException('Unterminated set in Regular Expression literal.');
+                  throw new rah_minify_JSMinException('Unterminated set in Regular Expression literal.');
                 }
               }
             } elseif ($this->a === '/') {
@@ -182,7 +182,7 @@ class JSMin {
               $this->a       = $this->get();
             //} elseif (ord($this->a) <= self::ORD_LF) {
             } elseif ($this->a === null) {
-              throw new JSMinException('Unterminated Regular Expression literal.');
+              throw new rah_minify_JSMinException('Unterminated Regular Expression literal.');
             }
 
             $this->output .= $this->a;
@@ -337,7 +337,7 @@ class JSMin {
    *
    * @uses get()
    * @uses peek()
-   * @throws JSMinException On unterminated comment.
+   * @throws rah_minify_JSMinException On unterminated comment.
    * @return string
    */
   protected function next() {
@@ -367,7 +367,7 @@ class JSMin {
                 break;
 
               case null:
-                throw new JSMinException('Unterminated comment.');
+                throw new rah_minify_JSMinException('Unterminated comment.');
             }
           }
 
@@ -392,4 +392,4 @@ class JSMin {
 }
 
 // -- Exceptions ---------------------------------------------------------------
-class JSMinException extends Exception {}
+class rah_minify_JSMinException extends Exception {}

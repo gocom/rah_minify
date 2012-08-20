@@ -291,15 +291,11 @@ class rah_minify {
 				exec($this->java . ' -jar ' . $this->yui . ' ' . $this->target, $data);
 				$this->output = implode('', (array) $data);
 			}
+			
+			return;
 		}
 		
-		elseif(class_exists('JSMin')) {
-			$this->output = JSMin::minify($this->input);
-		}
-		
-		else {
-			trace_add('[rah_minify: no JavaScript compressor configured]');
-		}
+		$this->output = rah_minify_JSMin::minify($this->input);
 	}
 
 	/**
