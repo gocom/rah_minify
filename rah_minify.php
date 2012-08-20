@@ -153,7 +153,7 @@ class rah_minify {
 		}
 		
 		if(trim($this->files)) {
-			$this->files = @json_decode($this->$files, true);
+			$this->files = @json_decode($this->files, true);
 		}
 		
 		$this->files = array_merge((array) $rah_minify, is_array($this->files) ? $this->files : array());
