@@ -10,7 +10,7 @@
 	<author_uri>http://rahforum.biz</author_uri>
 
 	<order>1</order>
-	<flags>0</flags>
+	<flags>2</flags>
 
 	<help file="./README.textile" />
 	<code file="./rah_minify.php, ./inc/cssmin.php, ./inc/jsmin.php" />
