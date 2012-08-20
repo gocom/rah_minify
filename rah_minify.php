@@ -20,6 +20,12 @@ class rah_minify {
 	static public $version = '0.1';
 	
 	/**
+	 * @var array List files set for compression
+	 */
+	
+	protected $files = array();
+	
+	/**
 	 * @var array Stack of queued files for processing
 	 */
 	
@@ -101,6 +107,7 @@ class rah_minify {
 		
 		foreach(
 			array(
+				'files' => array('rah_minify_files', ''),
 				'versions' => array('yesnoradio', 0),
 			) as $name => $val
 		) {
@@ -137,12 +144,22 @@ class rah_minify {
 		
 		global $rah_minify, $production_status;
 		
-		if(!$rah_minify || ($event == 'textpattern' && $production_status == 'live')) {
+		if($event == 'textpattern' && $production_status == 'live') {
 			return;
 		}
 		
-		foreach(array('versions') as $name) {
+		foreach(array('versions', 'files') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name);
+		}
+		
+		if(trim($this->files)) {
+			$this->files = @json_decode($this->$files, true);
+		}
+		
+		$this->files = array_merge((array) $rah_minify, is_array($this->files) ? $this->files : array());
+		
+		if(!$this->files) {
+			return;
 		}
 		
 		if(defined('rah_minify_yui')) {
@@ -166,9 +183,7 @@ class rah_minify {
 
 	public function collect_files() {
 	
-		global $rah_minify;
-	
-		foreach($rah_minify as $path => $to) {
+		foreach($this->files as $path => $to) {
 			
 			$to = $this->format_path($to);
 			$path = $this->format_path($path);
@@ -353,4 +368,14 @@ class rah_minify {
 	}
 }
 
+/**
+ * Files option
+ * @param string $name
+ * @param string $value
+ * @return string HTML
+ */
+
+	function rah_minify_files($name, $value) {
+		return text_area($name, 100, 300, $value, $name);
+	}
 ?>
