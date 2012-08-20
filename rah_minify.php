@@ -376,6 +376,6 @@ class rah_minify {
  */
 
 	function rah_minify_files($name, $value) {
-		return text_area($name, 100, 300, $value, $name);
+		return text_area($name, 60, 300, $value, $name);
 	}
 ?>
