@@ -1,25 +1,41 @@
 h1. rah_minify
 
-p. Rah_minify is a wrapper-plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files. Rah_minify supports and uses "YuiCompressor":https://github.com/yui/yuicompressor/, "Minify's CSS Compressor":https://github.com/mrclay/minify and "LESS":http://leafo.net/lessphp/ preprocessor.
+p. Rah_minify is an asset compressor plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files.
 
 h2. Requirements
 
-* Textpattern 4.5.0
-* PHP 5.2
+p. Rah_minify's minimum requirements:
+
+* Textpattern 4.4.1 or newer.
+* PHP 5.2 or newer.
 
 h2. Installation
 
-p. Todo
+p. Todo.
 
 h2. Configuring
 
-Todo.
+p. Todo.
+
+h2. Preferences
+
+p. Todo.
+
+h3. List of compressed files
+
+p. Todo.
+
+h3. Create optional timestamped, versioned files?
+
+p. Todo.
 
 h2. Setting processed files
 
-p. As seen in the above config example, the @$rah_minify@ global variable contains an array of files that will be processed by rah_minify. The key is a path to the original file and the value is the location the processed file will be saved.
+p. Todo.
 
-bc. $rah_minify = array('originalFile' => 'saveProcessedTo', [...]);
+h3. Optionally from PHP
+
+p. Todo.
 
 h2. Extension decides
 
@@ -27,15 +43,7 @@ p. Processing action is decided from the file extension. Files that end with @.l
 
 h2. Joining files
 
-p. Files with have same target location will be joined to a single file.
-
-bc. $rah_minify = array(
-	'script1.js' => 'scripts.min.js',
-	'script2.js' => 'scripts.min.js',
-	'script3.js' => 'scripts.min.js',
-);
-
-p. The above would join files @script1.js@, @script2.js@ and @script3.js@ to @scripts.min.js@. The files are joined in the order they are specified. Compressed contents of @script1.js@ will be at the beginning of @scripts.min.js@ while @script3.js@ will be at the end.
+p. Todo.
 
 h2. Debugging and activity log
 
