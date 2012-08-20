@@ -76,7 +76,7 @@ p. Rah_minify also supports file joining. All the source assets files are and ca
 
 p. With the following file configuration setting only two compressed files are written while there are total of five source files:
 
-p. ../js/jquery.plugin.js ../js/main.min.js
+bc. ../js/jquery.plugin.js ../js/main.min.js
 ../js/main.js ../js/main.min.js
 ../css/bootstrap.css ../css/main.min.css
 ../css/jquery.plugin.css ../css/main.min.css
