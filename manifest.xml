@@ -13,5 +13,6 @@
 	<flags>0</flags>
 
 	<help file="./README.textile" />
+	<code file="./inc/cssmin.php, ./inc/jsmin.php" />
 
 </manifest>
