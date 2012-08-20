@@ -2,6 +2,10 @@ h1. rah_minify
 
 p. Rah_minify is an asset compressor plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files.
 
+h2. Basics
+
+p. Todo.
+
 h2. Requirements
 
 p. Rah_minify's minimum requirements:
@@ -64,12 +68,28 @@ p. Todo.
 
 h2. Extension decides
 
-p. Processing action is decided from the file extension. Files that end with @.less@ are processed as LESS, @.css@ as CSS and @.js@ as JavaScript. Files with any other extension fill be ignored.
+p. Processing action is decided from the source asset file's extension. Files that end with a @.css@ are processed as a CSS and @.js@ as a JavaScript. If the optional "LESS PHP compiler":https://github.com/leafo/lessphp is installed, rah_minify can also process LESS code used in @.less@ files. Files with an unrecognized extension fill be ignored.
 
 h2. Joining files
 
-p. Todo.
+p. Rah_minify also supports file joining. All the source assets files are and can be processed as stacks, where contents are written to a single compressed target file. How this works is very simple. Any file pair that has the same target path will be joined and compressed output written to the same target file.
+
+p. With the following file configuration setting only two compressed files are written while there are total of five source files:
+
+p. ../js/jquery.plugin.js ../js/main.min.js
+../js/main.js ../js/main.min.js
+../css/bootstrap.css ../css/main.min.css
+../css/jquery.plugin.css ../css/main.min.css
+../css/main.css ../css/main.min.css
+
+p. The above will compress two files named as @main.min.css@ and @main.min.js@. The files are joined and written to the target files in the order they are listed. The sources of @bootstrap.css@ will be at the top of the @main.min.css@ while the styles from @main.css@ are at the end of the file.
 
 h2. Debugging and activity log
 
-p. Rah_minify writes a log and debugging lines Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in debugging mode. Looking at the trace can give an idea why a file isn't processed correctly.
+p. Rah_minify writes a log and a debugging lines to Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in a debugging mode. Looking at the trace can give an idea why a file isn't processed correctly.
+
+p. Lines added by rah_minify look something like the following:
+
+bc. [rah_minify: main.min.css is up to date]
+
+p. Every line added by rah_minify is prefixed by appropriately with @rah_minify:@.
