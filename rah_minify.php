@@ -156,9 +156,9 @@ class rah_minify {
 			$files = array();
 			
 			foreach(do_list($this->files, n) as $file) {
-				foreach(do_list($file, ' ') as $source => $target) {
-					$files[$source] = $target;
-				}
+				$file = explode(' ', $file);
+				$target = array_pop($file);
+				$files[implode(' ', $file)] = $target;
 			}
 			
 			$this->files = $files;
