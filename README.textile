@@ -2,14 +2,6 @@ h1. rah_minify
 
 p. Rah_minify is a wrapper-plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files. Rah_minify supports and uses "YuiCompressor":https://github.com/yui/yuicompressor/, "Minify's CSS Compressor":https://github.com/mrclay/minify and "LESS":http://leafo.net/lessphp/ preprocessor.
 
-h2. Features
-
-* Automatically processes CSS, LESS and JavaScript files when the site is in testing or debugging mode, or when admin-side panel is accessed.
-* Processed files are cached and saved to the the disk and can be included in page templates as any other normal JavaScript or CSS file.
-* Minifies specified JavaScript files using YuiCompressor.
-* Minifies CSS files using "Minify":https://github.com/mrclay/minify package's Minify_CSS_Compressor class.
-* If a CSS file ends with .less extension, runs the file with "lessphp":http://leafo.net/lessphp/.
-
 h2. Requirements
 
 * Textpattern 4.5.0
