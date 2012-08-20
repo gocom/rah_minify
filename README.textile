@@ -42,7 +42,7 @@ bc. ../assets/main.js ../assets/main.min.js
 ../assets/extra.js ../assets/extra.min.js
 ../assets/default.css ../assets/default.min.css
 
-h3. Create optional timestamped, versioned files?
+h3. Create snapshots?
 
 p. If set to Yes, additional timestamped files are created each time when a site's asset file is compressed. These files act as versions, written and modified just once. These files offer an way to "optimize caching of static resources":https://developers.google.com/speed/docs/best-practices/caching.
 

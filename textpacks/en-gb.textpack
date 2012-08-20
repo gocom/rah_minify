@@ -2,4 +2,4 @@
 #Default language, en-us, en-gb
 rah_minify => Minify
 rah_minify_files => List of compressed files
-rah_minify_versions => Create optional timestamped, versioned files?
+rah_minify_versions => Create snapshots?
