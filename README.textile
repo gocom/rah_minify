@@ -1,6 +1,6 @@
 h1. rah_minify
 
-p. Rah_minify is an asset compressor plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files.
+p. Rah_minify is an asset compressor plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files. Rah_minify removes comments, unneeded white-space and compressed property values and variables to its shortest format, while keeping the code's behavior intact.
 
 h2. Basics
 
@@ -13,7 +13,7 @@ p. Rah_minify's minimum requirements:
 * Textpattern 4.4.1 or newer.
 * PHP 5.2 or newer.
 
-h2. Installation
+h2. Installing
 
 p. Todo.
 
@@ -93,3 +93,13 @@ p. Lines added by rah_minify look something like the following:
 bc. [rah_minify: main.min.css is up to date]
 
 p. Every line added by rah_minify is prefixed by appropriately with @rah_minify:@.
+
+h2. Thanks to
+
+p. Todo.
+
+h2. Changelog
+
+h3. Version 0.1 - upcoming
+
+* Initial release.
