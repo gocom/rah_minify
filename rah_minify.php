@@ -308,27 +308,16 @@ class rah_minify {
 			trace_add('[rah_minify: no JavaScript compressor configured]');
 		}
 	}
-	
+
 	/**
 	 * Compress CSS
 	 */
-	
+
 	protected function compress_css() {
-		
-		if(class_exists('Minify_CSS_Compressor')) {
-			$this->output = Minify_CSS_Compressor::process($this->input);
-		}
-		
-		else if(class_exists('CSSmin')) {
-			$cssmin = new CSSmin(false);
-			$this->output = $cssmin->run($this->input);
-		}
-		
-		else {
-			trace_add('[rah_minify: no CSS compressor configured]');
-		}
+		$cssmin = new rah_minify_CSSmin(false);
+		$this->output = $cssmin->run($this->input);
 	}
-	
+
 	/**
 	 * Process and compress LESS
 	 */
