@@ -315,12 +315,18 @@ class rah_minify {
 	
 	protected function compress_css() {
 		
-		if(!class_exists('Minify_CSS_Compressor')) {
-			trace_add('[rah_minify: Minify_CSS_Compressor class is unavailable]');
-			return;
+		if(class_exists('Minify_CSS_Compressor')) {
+			$this->output = Minify_CSS_Compressor::process($this->input);
 		}
 		
-		$this->output = Minify_CSS_Compressor::process($this->input);
+		else if(class_exists('CSSmin')) {
+			$cssmin = new CSSmin(false);
+			$this->output = $cssmin->run($this->input);
+		}
+		
+		else {
+			trace_add('[rah_minify: no CSS compressor configured]');
+		}
 	}
 	
 	/**
