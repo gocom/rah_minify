@@ -292,7 +292,7 @@ class rah_minify {
 	protected function compress_js() {
 	
 		if($this->closure) {
-			$this->run_closurec();
+			$this->run_closure();
 			return;
 		}
 		
@@ -338,7 +338,7 @@ class rah_minify {
 	 * Closure compiler
 	 */
 	
-	protected function run_closurec() {
+	protected function run_closure() {
 	
 		if(!function_exists('curl_init')) {
 			trace_add('[rah_minify: cURL is not installed]');
