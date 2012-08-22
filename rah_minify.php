@@ -44,6 +44,12 @@ class rah_minify {
 	public $versions = false;
 	
 	/**
+	 * @var bool Use Google Closure Compiler Service for JavaScript
+	 */
+	
+	public $closure = false;
+	
+	/**
 	 * @var string Current file path
 	 */
 	
@@ -97,6 +103,7 @@ class rah_minify {
 			array(
 				'files' => array('rah_minify_files', ''),
 				'versions' => array('yesnoradio', 0),
+				'closure' => array('yesnoradio', 0),
 			) as $name => $val
 		) {
 			$n =  __CLASS__.'_'.$name;
@@ -136,7 +143,7 @@ class rah_minify {
 			return;
 		}
 		
-		foreach(array('versions', 'files') as $name) {
+		foreach(array('versions', 'files', 'closure') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name, $this->$name);
 		}
 		
@@ -283,6 +290,12 @@ class rah_minify {
 	 */
 	
 	protected function compress_js() {
+	
+		if($this->closure) {
+			$this->run_closurec();
+			return;
+		}
+		
 		$this->output = rah_minify_JSMin::minify($this->input);
 	}
 
