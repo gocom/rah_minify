@@ -3,3 +3,4 @@
 rah_minify => Minify
 rah_minify_files => List of compressed files
 rah_minify_versions => Create snapshots?
+rah_minify_closure => Use Closure Compiler service?
