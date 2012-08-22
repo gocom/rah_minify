@@ -349,6 +349,40 @@ class rah_minify {
 	}
 	
 	/**
+	 * Closure compiler
+	 */
+	
+	protected function run_closurec() {
+	
+		if(!function_exists('curl_init')) {
+			trace_add('[rah_minify: cURL is not installed]');
+			return;
+		}
+		
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, 'http://closure-compiler.appspot.com/compile');
+		curl_setopt($ch, CURLOPT_POST, true);
+		curl_setopt($ch, CURLOPT_FAILONERROR, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 90);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 90);
+		curl_setopt($ch, CURLOPT_POSTFIELDS,
+			'output_info=compiled_code'.
+			'&output_format=text'.
+			'&compilation_level=SIMPLE_OPTIMIZATIONS'.
+			'&js_code='.urlencode($this->input)
+		);
+		
+		$this->output = curl_exec($ch);
+		$error = curl_errno($ch);
+		curl_close($ch);
+		
+		if($this->output === false || $error) {
+			trace_add('[rah_minify: unable connect to Closure Compiler Service API ('.$error.')]');
+		}
+	}
+	
+	/**
 	 * Formats paths
 	 * @param string $path
 	 * @return string Path
