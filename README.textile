@@ -58,6 +58,12 @@ bc. ../assets/main.js ../assets/main.min.js
 
 p. For the above the created versioned file would be named as @v.main.min.1345269546.js@, written to the same assets directory.
 
+h3. Use Closure Compiler service?
+
+p. If set to Yes, rah_minify uses Google's "Closure Compiler":https://developers.google.com/closure/compiler/ to compress JavaScript files. If set to No, JSMin is used to do the code minifying. By default JSMin is used.
+
+p. When the setting is active, rah_minify uses Google's Web based Closure Compiler Service API. To offer wide server support and to avoid non-PHP dependencies, the compressing is done on Google's servers via the public application interface. Using this option requires "cURL":http://php.net/manual/en/book.curl.php and an internet connection.
+
 h2. Setting processed files
 
 p. Todo.
