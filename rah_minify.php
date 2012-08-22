@@ -41,13 +41,13 @@ class rah_minify {
 	 * @var bool Turns versioning on
 	 */
 	
-	public $versions = false;
+	protected $versions = false;
 	
 	/**
 	 * @var bool Use Google Closure Compiler Service for JavaScript
 	 */
 	
-	public $closure = false;
+	protected $closure = false;
 	
 	/**
 	 * @var string Current file path
