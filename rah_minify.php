@@ -172,7 +172,7 @@ class rah_minify {
 	 * Collects updated files
 	 */
 
-	public function collect_files() {
+	protected function collect_files() {
 	
 		foreach($this->files as $path => $to) {
 			
