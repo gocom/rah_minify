@@ -38,18 +38,6 @@ class rah_minify {
 	protected $read = array();
 	
 	/**
-	 * @var string Path to YUIcompressor
-	 */
-	
-	public $yui = '';
-	
-	/**
-	 * @var string Java command
-	 */
-	
-	public $java = 'export DYLD_LIBRARY_PATH=""; java';
-	
-	/**
 	 * @var bool Turns versioning on
 	 */
 	
@@ -148,7 +136,7 @@ class rah_minify {
 			return;
 		}
 		
-		foreach(array('versions', 'files', 'yui', 'java') as $name) {
+		foreach(array('versions', 'files') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name, $this->$name);
 		}
 		
@@ -168,10 +156,6 @@ class rah_minify {
 		
 		if(!$this->files) {
 			return;
-		}
-		
-		if(!$this->java || !$this->yui || !function_exists('exec')) {
-			$this->yui = null;
 		}
 		
 		$this->collect_files();
@@ -299,17 +283,6 @@ class rah_minify {
 	 */
 	
 	protected function compress_js() {
-		
-		if($this->yui) {
-			if(file_put_contents($this->target, $this->input) !== false) {
-				$data = array();
-				exec($this->java . ' -jar ' . $this->yui . ' ' . $this->target, $data);
-				$this->output = implode('', (array) $data);
-			}
-			
-			return;
-		}
-		
 		$this->output = rah_minify_JSMin::minify($this->input);
 	}
 
