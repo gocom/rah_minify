@@ -104,13 +104,11 @@ p. Where the @/absolute/path/to/less.inc.php@ is an absolute path to the LESS PH
 
 h2. Debugging and the activity log
 
-p. Rah_minify writes a log and a debugging lines to Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in a debugging mode. Looking at the trace can give an idea why a file isn't processed correctly.
-
-p. Lines added by rah_minify look something like the following:
+p. Rah_minify writes a log and a debugging lines to Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in a debugging mode. Looking at the trace can give an idea why a file isn't processed correctly. Lines added by rah_minify look something like the following:
 
 bc. [rah_minify: main.min.css is up to date]
 
-p. Every line added by rah_minify is prefixed by appropriately with @rah_minify:@.
+p. Every line added by rah_minify is prefixed appropriately with @rah_minify:@.
 
 h2. Thanks to
 
