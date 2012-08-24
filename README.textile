@@ -94,6 +94,18 @@ bc. ../js/jquery.plugin.js ../js/main.min.js
 
 p. The above will compress two files named as @main.min.css@ and @main.min.js@. The files are joined and written to the target files in the order they are listed. The sources of @bootstrap.css@ will be at the top of the @main.min.css@ while the styles from @main.css@ are at the end of the file.
 
+h2. LESS support
+
+p. To enable "LESS":http://lesscss.org/ syntax support in your stylesheets, you would first need to install and import LESS PHP class to Textpattern.
+
+p. First download "LESSPHP":http://leafo.net/lessphp/ and upload "lessc.inc.php":https://raw.github.com/leafo/lessphp to your website's server.
+
+p. After you have uploaded the file open up your Textpattern's configuration file, @config.php@ and add the following line to it:
+
+bc. include "/absolute/path/to/lessc.inc.php";
+
+p. Where the @/absolute/path/to/less.inc.php@ is an absolute path to the LESS PHP's class file you uploaded.
+
 h2. Debugging and the activity log
 
 p. Rah_minify writes a log and a debugging lines to Textpattern's "tag trace":http://textpattern.net/wiki/index.php?title=Tag_trace when the site is in a debugging mode. Looking at the trace can give an idea why a file isn't processed correctly.
