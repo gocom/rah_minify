@@ -50,6 +50,12 @@ class rah_minify {
 	protected $closure = false;
 	
 	/**
+	 * @var bool Run the source with Textpattern tag parser
+	 */
+	
+	protected $parse = false;
+	
+	/**
 	 * @var string Current file path
 	 */
 	
@@ -104,6 +110,7 @@ class rah_minify {
 				'files' => array('rah_minify_files', ''),
 				'versions' => array('yesnoradio', 0),
 				'closure' => array('yesnoradio', 0),
+				'parse' => array('yesnoradio', 0),
 			) as $name => $val
 		) {
 			$n =  __CLASS__.'_'.$name;
@@ -143,7 +150,7 @@ class rah_minify {
 			return;
 		}
 		
-		foreach(array('versions', 'files', 'closure') as $name) {
+		foreach(array('versions', 'files', 'closure', 'parse') as $name) {
 			$this->$name = get_pref(__CLASS__.'_'.$name, $this->$name);
 		}
 		
@@ -238,6 +245,7 @@ class rah_minify {
 		
 		$this->input = implode(n, $data);
 		$this->output = '';
+		$this->parse();
 		
 		$method = 'compress_'.strtolower(pathinfo($path, PATHINFO_EXTENSION));
 		
@@ -283,6 +291,17 @@ class rah_minify {
 		}
 		
 		trace_add('[rah_minify: created '.$name.']');
+	}
+	
+	/**
+	 * Parse Textpattern's tag markup
+	 */
+	
+	protected function parse() {
+		if($this->parse) {
+			include_once txpath . '/publish.php';
+			$this->input = parse($this->input);
+		}
 	}
 	
 	/**
