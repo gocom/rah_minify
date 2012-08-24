@@ -96,11 +96,7 @@ p. The above will compress two files named as @main.min.css@ and @main.min.js@. 
 
 h2. LESS support
 
-p. To enable "LESS":http://lesscss.org/ syntax support in your stylesheets, you would first need to install and import LESS PHP class to Textpattern.
-
-p. First download "LESSPHP":http://leafo.net/lessphp/ and upload "lessc.inc.php":https://raw.github.com/leafo/lessphp to your website's server.
-
-p. After you have uploaded the file open up your Textpattern's configuration file, @config.php@ and add the following line to it:
+p. To enable "LESS":http://lesscss.org/ syntax support in your stylesheets, you would first need to install and import LESS PHP class to Textpattern. First download "LESSPHP":http://leafo.net/lessphp/ and upload "lessc.inc.php":https://raw.github.com/leafo/lessphp to your website's server. After you have uploaded the file open up your Textpattern's configuration file, @config.php@ and add the following line to it:
 
 bc. include "/absolute/path/to/lessc.inc.php";
 
