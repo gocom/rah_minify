@@ -64,6 +64,10 @@ p. If set to Yes, rah_minify uses Google's "Closure Compiler":https://developers
 
 p. When the setting is active, rah_minify uses Google's Web based Closure Compiler Service API. To offer wide server support and to avoid non-PHP dependencies, the compressing is done on Google's servers via the public application interface. Using this option requires "cURL":http://php.net/manual/en/book.curl.php and an internet connection.
 
+h3. Parse Textpattern tags?
+
+p. If set Yes, the source files are run through Textpattern's tag parser. This enables the use of Textpattern tags and PHP in the asset files. For instance, the "variable":http://textpattern.net/wiki/index.php?title=variable tag could make a great way to implement variables in stylesheets that store common values and colors.
+
 h2. Setting processed files
 
 p. Todo.
