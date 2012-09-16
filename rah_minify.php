@@ -107,7 +107,7 @@ class rah_minify {
 		
 		foreach(
 			array(
-				'files' => array('rah_minify_files', ''),
+				'files' => array('pref_longtext_input', ''),
 				'versions' => array('yesnoradio', 0),
 				'closure' => array('yesnoradio', 0),
 				'parse' => array('yesnoradio', 0),
@@ -407,14 +407,4 @@ class rah_minify {
 	}
 }
 
-/**
- * Files option
- * @param string $name
- * @param string $value
- * @return string HTML
- */
-
-	function rah_minify_files($name, $value) {
-		return text_area($name, 60, 300, $value, $name);
-	}
 ?>
