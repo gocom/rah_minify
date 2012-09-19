@@ -10,8 +10,7 @@ h2. Requirements
 
 p. Rah_minify's minimum requirements:
 
-* Textpattern 4.4.1 or newer.
-* PHP 5.2 or newer.
+* Textpattern 4.5 or newer.
 
 h2. Installing
 
