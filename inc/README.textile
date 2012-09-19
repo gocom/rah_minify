@@ -1,6 +1,6 @@
 h1. Included source libraries
 
-p. These libraries are part of the plugin package and installer.
+p. These libraries are part of the plugin package.
 
 h2. CSSmin.php
 
