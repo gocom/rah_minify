@@ -3,87 +3,117 @@
 /**
  * Rah_minify plugin for Textpattern CMS.
  *
- * @author Jukka Svahn
- * @date 2011-
+ * @author  Jukka Svahn
+ * @date    2011-
  * @license GNU GPLv2
- * @link https://github.com/gocom/rah_minify
+ * @link    https://github.com/gocom/rah_minify
  *
- * Copyright (C) 2011 Jukka Svahn <http://rahforum.biz>
+ * Copyright (C) 2011 Jukka Svahn http://rahforum.biz
  * Licensed under GNU Genral Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
 
 	new rah_minify();
 
+/**
+ * The plugin class.
+ */
+
 class rah_minify
 {
+	/**
+	 * Version number.
+	 *
+	 * @var string
+	 */
 
 	static public $version = '0.1';
 
 	/**
-	 * @var array List files set for compression
+	 * List files set for compression.
+	 *
+	 * @var array
 	 */
 
 	protected $files = array();
 
 	/**
-	 * @var array Stack of queued files for processing
+	 * Stack of queued files for processing.
+	 *
+	 * @var array
 	 */
 
 	protected $stack = array();
 
 	/**
-	 * @var array Files available for reading
+	 * Files available for reading.
+	 *
+	 * @var array
 	 */
 
 	protected $read = array();
 
 	/**
-	 * @var bool Turns versioning on
+	 * Turns versioning on.
+	 *
+	 * @var bool
 	 */
 
 	protected $versions = false;
 
 	/**
-	 * @var bool Use Google Closure Compiler Service for JavaScript
+	 * Use Google Closure Compiler Service for JavaScript.
+	 *
+	 * @var bool
 	 */
 
 	protected $closure = false;
 
 	/**
-	 * @var bool Run the source with Textpattern tag parser
+	 * Run the source with Textpattern tag parser.
+	 *
+	 * @var bool
 	 */
 
 	protected $parse = false;
 
 	/**
-	 * @var string Current file path
+	 * Current file path.
+	 *
+	 * @var string
 	 */
 
 	protected $source;
 
 	/**
-	 * @var string Target output file
+	 * Target output file.
+	 *
+	 * @var string
 	 */
 
 	protected $target;
 
 	/**
-	 * @var string Current files compressed output
+	 * The current file's compressed output.
+	 *
+	 * @var string
 	 */
 
 	protected $output;
-	
+
 	/**
-	 * @var string Incoming data for compression
+	 * Incoming data for compression.
+	 *
+	 * @var string
 	 */
 
 	protected $input;
 
 	/**
-	 * Installer
-	 * @param string $event Admin-side event.
-	 * @param string $step Admin-side, plugin-lifecycle step.
+	 * Installer.
+	 *
+	 * @param string $event Plugin-lifecycle event
+	 * @param string $step  Plugin-lifecycle step
 	 */
 
 	static public function install($event = '', $step = '')
@@ -132,7 +162,7 @@ class rah_minify
 	}
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 */
 
 	public function __construct()
@@ -143,10 +173,11 @@ class rah_minify
 	}
 
 	/** 
-	 * Handles callback
+	 * Handles initialization.
+	 *
 	 * @param string $event Callback event
 	 */
-	
+
 	public function handler($event = '')
 	{
 		global $rah_minify, $production_status;
@@ -189,7 +220,7 @@ class rah_minify
 	}
 
 	/**
-	 * Collects updated files
+	 * Collects and updates modified files.
 	 */
 
 	protected function collect_files()
@@ -253,7 +284,7 @@ class rah_minify
 	}
 
 	/**
-	 * Process and minify files
+	 * Processes and minifies files.
 	 */
 
 	protected function process()
@@ -287,7 +318,7 @@ class rah_minify
 	}
 
 	/**
-	 * Versioning
+	 * Creates stamped versions.
 	 */
 
 	protected function create_version()
@@ -319,7 +350,7 @@ class rah_minify
 	}
 
 	/**
-	 * Parse Textpattern's tag markup
+	 * Parse Textpattern's tag markup in input.
 	 */
 
 	protected function parse()
@@ -332,9 +363,9 @@ class rah_minify
 	}
 
 	/**
-	 * Compress JavaScript
+	 * Compresses JavaScript files.
 	 */
-	
+
 	protected function compress_js()
 	{
 		if ($this->closure)
@@ -347,7 +378,7 @@ class rah_minify
 	}
 
 	/**
-	 * Compress CSS
+	 * Compress CSS files.
 	 */
 
 	protected function compress_css()
@@ -357,9 +388,9 @@ class rah_minify
 	}
 
 	/**
-	 * Process and compress LESS
+	 * Processes and compresses LESS files.
 	 */
-	
+
 	protected function compress_less()
 	{
 		if (!class_exists('lessc'))
@@ -385,9 +416,9 @@ class rah_minify
 	}
 
 	/**
-	 * Closure compiler
+	 * Closure compiler.
 	 */
-	
+
 	protected function run_closure()
 	{
 		if (!function_exists('curl_init'))
@@ -421,9 +452,10 @@ class rah_minify
 	}
 
 	/**
-	 * Formats paths
-	 * @param string $path
-	 * @return string Path
+	 * Formats a path.
+	 *
+	 * @param  string $path The path
+	 * @return string Formatted path
 	 */
 
 	protected function format_path($path)
