@@ -168,6 +168,7 @@ class rah_minify
 	public function __construct()
 	{
 		global $event;
+		add_privs('prefs.'.__CLASS__, '1,2');
 		register_callback(array(__CLASS__, 'install'), 'plugin_lifecycle.'.__CLASS__);
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
 	}
