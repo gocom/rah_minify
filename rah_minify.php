@@ -474,5 +474,3 @@ class rah_minify
 		return $path;
 	}
 }
-
-?>
