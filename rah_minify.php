@@ -116,7 +116,7 @@ class rah_minify
 	 * @param string $step  Plugin-lifecycle step
 	 */
 
-	static public function install($event = '', $step = '')
+	public function install($event = '', $step = '')
 	{
 		global $prefs;
 
@@ -169,7 +169,7 @@ class rah_minify
 	{
 		global $event;
 		add_privs('prefs.'.__CLASS__, '1,2');
-		register_callback(array(__CLASS__, 'install'), 'plugin_lifecycle.'.__CLASS__);
+		register_callback(array($this, 'install'), 'plugin_lifecycle.'.__CLASS__);
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
 	}
 
