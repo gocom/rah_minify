@@ -158,7 +158,6 @@ class rah_minify
 		}
 
 		set_pref('rah_minify_version', self::$version, 'rah_minify', PREF_HIDDEN, '', PREF_PRIVATE);
-		$prefs['rah_minify_version'] = self::$version;
 	}
 
 	/**
