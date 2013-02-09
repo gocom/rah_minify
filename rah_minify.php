@@ -27,7 +27,7 @@ class rah_minify
 	 * @var string
 	 */
 
-	static public $version = '0.1';
+	public $version = '0.1';
 
 	/**
 	 * List files set for compression.
@@ -130,7 +130,7 @@ class rah_minify
 			return;
 		}
 
-		if ((string) get_pref('rah_minify_version') === self::$version)
+		if ((string) get_pref('rah_minify_version') === $this->version)
 		{
 			return;
 		}
@@ -157,7 +157,7 @@ class rah_minify
 			$position++;
 		}
 
-		set_pref('rah_minify_version', self::$version, 'rah_minify', PREF_HIDDEN, '', PREF_PRIVATE);
+		set_pref('rah_minify_version', $this->version, 'rah_minify', PREF_HIDDEN, '', PREF_PRIVATE);
 	}
 
 	/**
