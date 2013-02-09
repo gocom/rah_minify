@@ -173,7 +173,7 @@ class rah_minify
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
 	}
 
-	/** 
+	/**
 	 * Handles initialization.
 	 *
 	 * @param string $event Callback event
