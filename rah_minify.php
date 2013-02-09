@@ -130,7 +130,7 @@ class rah_minify
 			return;
 		}
 
-		if ((string) get_pref(__CLASS__.'_version') === self::$version)
+		if ((string) get_pref('rah_minify_version') === self::$version)
 		{
 			return;
 		}
@@ -146,19 +146,19 @@ class rah_minify
 			) as $name => $val
 		)
 		{
-			$n =  __CLASS__.'_'.$name;
+			$n =  'rah_minify_'.$name;
 
 			if (!isset($prefs[$n]))
 			{
-				set_pref($n, $val[1], __CLASS__, PREF_ADVANCED, $val[0], $position);
+				set_pref($n, $val[1], 'rah_minify', PREF_ADVANCED, $val[0], $position);
 				$prefs[$n] = $val[1];
 			}
 
 			$position++;
 		}
 
-		set_pref(__CLASS__.'_version', self::$version, __CLASS__, PREF_HIDDEN, '', PREF_PRIVATE);
-		$prefs[__CLASS__.'_version'] = self::$version;
+		set_pref('rah_minify_version', self::$version, 'rah_minify', PREF_HIDDEN, '', PREF_PRIVATE);
+		$prefs['rah_minify_version'] = self::$version;
 	}
 
 	/**
@@ -168,8 +168,8 @@ class rah_minify
 	public function __construct()
 	{
 		global $event;
-		add_privs('prefs.'.__CLASS__, '1,2');
-		register_callback(array($this, 'install'), 'plugin_lifecycle.'.__CLASS__);
+		add_privs('prefs.rah_minify', '1,2');
+		register_callback(array($this, 'install'), 'plugin_lifecycle.rah_minify');
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
 	}
 
@@ -190,7 +190,7 @@ class rah_minify
 
 		foreach (array('versions', 'files', 'closure', 'parse') as $name)
 		{
-			$this->$name = get_pref(__CLASS__.'_'.$name, $this->$name);
+			$this->$name = get_pref('rah_minify_'.$name, $this->$name);
 		}
 
 		if (trim($this->files))
