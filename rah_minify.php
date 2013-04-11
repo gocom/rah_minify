@@ -156,11 +156,32 @@ class rah_minify
 
 	public function __construct()
 	{
-		global $event;
 		add_privs('prefs.rah_minify', '1');
 		register_callback(array($this, 'install'), 'plugin_lifecycle.rah_minify', 'installed');
 		register_callback(array($this, 'uninstall'), 'plugin_lifecycle.rah_minify', 'deleted');
-		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
+		register_callback(array($this, 'admin_handler'), 'admin_side', 'body_end');
+		register_callback(array($this, 'page_handler'), 'textpattern');
+	}
+
+	/**
+	 * Handles on-demand initialization.
+	 */
+
+	public function page_handler()
+	{
+		if (get_pref('production_status') != 'live')
+		{
+			$this->handler();
+		}
+	}
+
+	/**
+	 * Run compressor on admin-side pages.
+	 */
+
+	public function admin_handler()
+	{
+		$this->handler();
 	}
 
 	/**
@@ -169,14 +190,9 @@ class rah_minify
 	 * @param string $event Callback event
 	 */
 
-	public function handler($event = '')
+	public function handler()
 	{
-		global $rah_minify, $production_status;
-
-		if ($event == 'textpattern' && $production_status == 'live')
-		{
-			return;
-		}
+		global $rah_minify;
 
 		foreach (array('versions', 'files', 'closure', 'parse') as $name)
 		{
