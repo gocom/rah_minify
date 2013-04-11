@@ -111,12 +111,9 @@ class rah_minify
 
 	/**
 	 * Installer.
-	 *
-	 * @param string $event Plugin-lifecycle event
-	 * @param string $step  Plugin-lifecycle step
 	 */
 
-	public function install($event = '', $step = '')
+	public function install()
 	{
 		if ((string) get_pref('rah_minify_version') === $this->version)
 		{
