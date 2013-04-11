@@ -120,16 +120,6 @@ class rah_minify
 	{
 		global $prefs;
 
-		if ($step == 'deleted')
-		{
-			safe_delete(
-				'txp_prefs',
-				"name like 'rah\_minify\_%'"
-			);
-
-			return;
-		}
-
 		if ((string) get_pref('rah_minify_version') === $this->version)
 		{
 			return;
@@ -160,6 +150,18 @@ class rah_minify
 	}
 
 	/**
+	 * Uninstaller.
+	 */
+
+	public function uninstall()
+	{
+		safe_delete(
+			'txp_prefs',
+			"name like 'rah\_minify\_%'"
+		);
+	}
+
+	/**
 	 * Constructor.
 	 */
 
@@ -167,7 +169,8 @@ class rah_minify
 	{
 		global $event;
 		add_privs('prefs.rah_minify', '1,2');
-		register_callback(array($this, 'install'), 'plugin_lifecycle.rah_minify');
+		register_callback(array($this, 'install'), 'plugin_lifecycle.rah_minify', 'installed');
+		register_callback(array($this, 'uninstall'), 'plugin_lifecycle.rah_minify', 'deleted');
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
 	}
 
