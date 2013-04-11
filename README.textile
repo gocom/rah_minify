@@ -24,6 +24,20 @@ h2. Preferences
 
 p. Rah_minify offers few preferences that can be used to do all the needed configuration. All settings can be found from "Advanced Preferences":http://textpattern.net/wiki/index.php?title=Advanced_Preferences, organized under a *Minify* section. The following settings will be present.
 
+h3. Security key for the public callback
+
+p. A key that is used to restrict unwanted access to the callback URL. This should be set as a long, strong value, containing combination of numbers, characters and symbols.
+
+p. If set, assets can be processed and minified with a public callback URL. This removes any need to have the site to set to debugging mode or having to login to Textpattern. Each time the callback URL is accessed, processed files are created from your assets.
+
+p. This callback URL can be used with a "cron job":http://en.wikipedia.org/wiki/Cron to do scheduled processing job, or added into automated "deployment task":http://www.deployhq.com/. The callback could be executed on "post-hook":http://git-scm.com/book/en/Customizing-Git-Git-Hooks after each commit, or code change. This way you never have to worry about compressing and compiling your JavaScript or CSS code manually, or polluting your repository with unneeded files.
+
+p. A callback URL would look like this:
+
+bc. http://example.com/?rah_minify=key
+
+p. Where @key@ is the value set in _Security key for the public callback_ field, and @http://example.com/@ is path to your Textpattern site.
+
 h3. List of compressed files
 
 p. This setting sets the JavaScript and CSS files that are being compressed by rah_minify. The setting takes an list of absolute file system paths, formatted in source and target pairs, pairs separated by line breaks.

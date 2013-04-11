@@ -118,6 +118,7 @@ class rah_minify
 
 		foreach(
 			array(
+				'key'      => array('text_input', md5(uniqid(mt_rand(), true))),
 				'files'    => array('pref_longtext_input', ''),
 				'versions' => array('yesnoradio', 0),
 				'closure'  => array('yesnoradio', 0),
@@ -161,6 +162,24 @@ class rah_minify
 		register_callback(array($this, 'uninstall'), 'plugin_lifecycle.rah_minify', 'deleted');
 		register_callback(array($this, 'admin_handler'), 'admin_side', 'body_end');
 		register_callback(array($this, 'page_handler'), 'textpattern');
+		register_callback(array($this, 'endpoint'), 'textpattern');
+	}
+
+	/**
+	 * Public callback hook endpoint.
+	 */
+
+	public function endpoint()
+	{
+		extract(gpsa(array(
+			'rah_minify',
+		)));
+
+		if (get_pref('rah_minify_key') && get_pref('rah_minify_key') === $rah_minify)
+		{
+			$this->handler();
+			die;
+		}
 	}
 
 	/**
