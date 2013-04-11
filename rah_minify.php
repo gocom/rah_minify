@@ -118,8 +118,6 @@ class rah_minify
 
 	public function install($event = '', $step = '')
 	{
-		global $prefs;
-
 		if ((string) get_pref('rah_minify_version') === $this->version)
 		{
 			return;
