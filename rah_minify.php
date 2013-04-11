@@ -13,12 +13,6 @@
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
 
-	new rah_minify();
-
-/**
- * The plugin class.
- */
-
 class rah_minify
 {
 	/**
@@ -470,3 +464,5 @@ class rah_minify
 		return $path;
 	}
 }
+
+new rah_minify();
