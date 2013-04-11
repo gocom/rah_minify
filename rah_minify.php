@@ -148,7 +148,7 @@ class rah_minify
 		{
 			$n =  'rah_minify_'.$name;
 
-			if (!isset($prefs[$n]))
+			if (get_pref($n, false) === false)
 			{
 				set_pref($n, $val[1], 'rah_minify', PREF_ADVANCED, $val[0], $position);
 			}
