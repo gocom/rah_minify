@@ -183,7 +183,7 @@ class rah_minify
 			$this->$name = get_pref('rah_minify_'.$name, $this->$name);
 		}
 
-		if (trim($this->files))
+		if ($this->files)
 		{
 			$files = array();
 
