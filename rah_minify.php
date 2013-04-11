@@ -168,7 +168,7 @@ class rah_minify
 	public function __construct()
 	{
 		global $event;
-		add_privs('prefs.rah_minify', '1,2');
+		add_privs('prefs.rah_minify', '1');
 		register_callback(array($this, 'install'), 'plugin_lifecycle.rah_minify', 'installed');
 		register_callback(array($this, 'uninstall'), 'plugin_lifecycle.rah_minify', 'deleted');
 		register_callback(array($this, 'handler'), $event ? $event : 'textpattern');
