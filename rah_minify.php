@@ -8,7 +8,7 @@
  * @license GNU GPLv2
  * @link    https://github.com/gocom/rah_minify
  *
- * Copyright (C) 2011 Jukka Svahn http://rahforum.biz
+ * Copyright (C) 2013 Jukka Svahn http://rahforum.biz
  * Licensed under GNU Genral Public License version 2
  * http://www.gnu.org/licenses/gpl-2.0.html
  */
