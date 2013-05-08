@@ -1,0 +1,23 @@
+{
+	"name": "rah/rah_minify",
+	"description": "Assets minifier for Textpattern CMS",
+	"keywords": ["textpattern", "plugin", "javascript", "css", "minify", "compress"],
+	"homepage": "https://github.com/gocom/rah_minify",
+	"license": "GPL-2.0",
+	"type": "textpattern-plugin",
+	"authors": [
+		{
+			"name": "Jukka Svahn",
+			"homepage": "http://rahforum.biz",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/gocom/rah_minify/issues",
+		"source": "https://github.com/gocom/rah_minify"
+	},
+	"require": {
+		"textpattern/lock": ">=4.5.0",
+		"textpattern/installer": "*"
+	}
+}
