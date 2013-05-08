@@ -15,14 +15,6 @@
 class rah_minify
 {
 	/**
-	 * Version number.
-	 *
-	 * @var string
-	 */
-
-	public $version = '0.1';
-
-	/**
 	 * List files set for compression.
 	 *
 	 * @var array
@@ -108,11 +100,6 @@ class rah_minify
 
 	public function install()
 	{
-		if ((string) get_pref('rah_minify_version') === $this->version)
-		{
-			return;
-		}
-
 		$position = 250;
 
 		foreach(
@@ -134,8 +121,6 @@ class rah_minify
 
 			$position++;
 		}
-
-		set_pref('rah_minify_version', $this->version, 'rah_minify', PREF_HIDDEN, '', PREF_PRIVATE);
 	}
 
 	/**
