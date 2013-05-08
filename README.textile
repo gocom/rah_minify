@@ -1,5 +1,7 @@
 h1. rah_minify
 
+p. "Packagist":https://packagist.org/packages/rah/rah_minify | "GitHub":https://github.com/gocom/rah_minify | "Twitter":http://twitter.com/gocom | "Donate":http://rahforum.biz/donate/rah_minify
+
 p. Rah_minify is an asset compressor plugin for "Textpattern CMS":http://textpattern.com. It minifies and preprocesses flat JavaScript and CSS files. Rah_minify removes comments, unneeded white-space and compressed property values and variables to its shortest format, while keeping the code's behavior intact.
 
 h2. Installing
