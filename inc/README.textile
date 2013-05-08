@@ -7,9 +7,3 @@ h2. CSSmin.php
 p. "YUI CSS compressor":https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port PHP port by "Túbal Martín":https://github.com/tubalmartin.
 
 p. Note: CSSMin class is renamed as rah_minify_CSSMin. This to comply with the Plugin Guide Lines and to avoid any collisions. We are a plugin after all.
-
-h2. JSmin.php
-
-p. A "PHP port":https://github.com/rgrove/jsmin-php of "Douglas Crockford's":https://github.com/douglascrockford "JSMin":https://github.com/douglascrockford/JSMin by "Ryan Grove":https://github.com/rgrove.
-
-p. Note: JSMin class is renamed as rah_minify_JSmin and JSMinException as rah_minify_JSMinException. This to comply with the Plugin Guide Lines and to avoid any collisions. We are a plugin after all.

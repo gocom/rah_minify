@@ -384,7 +384,7 @@ class rah_minify
 			return;
 		}
 
-		$this->output = rah_minify_JSMin::minify($this->input);
+		$this->output = JSMin::minify($this->input);
 	}
 
 	/**
