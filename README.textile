@@ -121,7 +121,9 @@ p. Every line added by rah_minify is prefixed appropriately with @rah_minify:@.
 
 h2. Thanks to
 
-p. Todo.
+* Google "Closure Compiler":https://developers.google.com/closure/compiler/ and the "service":http://closure-compiler.appspot.com/home.
+* "Douglas Crockford":https://github.com/douglascrockford for "JSMin":https://github.com/douglascrockford/JSMin, and "Ryan Grove":https://github.com/rgrove for a "PHP port":https://github.com/rgrove/jsmin-php.
+* "YUI CSS compressor":https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port PHP port by "Túbal Martín":https://github.com/tubalmartin
 
 h2. Changelog
 
