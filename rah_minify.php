@@ -31,12 +31,12 @@ class rah_minify
 	protected $stack = array();
 
 	/**
-	 * Files available for reading.
+	 * An array of modified stacks.
 	 *
 	 * @var array
 	 */
 
-	protected $read = array();
+	protected $modified = array();
 
 	/**
 	 * Turns versioning on.
@@ -225,7 +225,7 @@ class rah_minify
 			{
 				$file = explode(' ', $file);
 				$target = array_pop($file);
-				$files[implode(' ', $file)] = $target;
+				$files[$this->format_path(implode(' ', $file))] = $this->format_path($target);
 			}
 
 			$this->files = $files;
@@ -239,6 +239,11 @@ class rah_minify
 		try
 		{
 			$this->collect_files();
+
+			if ($this->modified)
+			{
+				update_lastmod();
+			}
 		}
 		catch (Exception $e)
 		{
@@ -256,65 +261,64 @@ class rah_minify
 	}
 
 	/**
-	 * Collects and updates modified files.
+	 * Gets modified files.
+	 *
+	 * Filtering is based on the file modification
+	 * stamp.
 	 */
 
-	protected function collect_files()
+	protected function getModified()
 	{
-		foreach ($this->files as $path => $to)
+		foreach ($this->files as $source => $target)
 		{
-			$to = $this->format_path($to);
-			$path = $this->format_path($path);
-
-			if (!file_exists($path) || !is_file($path) || !is_readable($path))
+			if (!file_exists($source) || !is_file($source) || !is_readable($source))
 			{
-				throw new Exception(basename($path).' (source) can not be read');
+				throw new Exception('Unable to read: '.$source);
 			}
 
-			$this->stack[$to][] = $path;
+			$this->stack[$target][] = $source;
 
-			if (in_array($to, $this->read))
+			if (in_array($target, $this->modified, true))
 			{
 				continue;
 			}
 
-			if (file_exists($to))
+			if (file_exists($target))
 			{
-				if (!is_file($to) || !is_writable($to) || !is_readable($to))
+				if (!is_file($target) || !is_writable($target))
 				{
-					trace_add('[rah_minify: '.basename($path).' -> '.basename($to).' (target) is not writeable]');
-					continue;
+					throw new Exception('Unable to write: ' . $target);
 				}
 
-				$time = filemtime($to);
-
-				if ($time >= filemtime($path))
+				if (filemtime($target) < filemtime($source))
 				{
-					continue;
+					$this->modified[] = $target;
 				}
-			}
-
-			$this->read[] = $to;
-		}
-
-		foreach ($this->stack as $to => $paths)
-		{	
-			if (in_array($to, $this->read))
-			{
-				$this->source = $paths;
-				$this->target = $to;
-				$this->process();
-				$this->create_version();
 			}
 			else
 			{
-				trace_add('[rah_minify: '.basename($to).' is up to date]');
+				$this->modified[] = $to;
 			}
 		}
+	}
 
-		if ($this->read)
+	/**
+	 * Compresses updated files.
+	 */
+
+	protected function collect_files()
+	{
+		$this->getModified();
+
+		foreach ($this->stack as $target => $sources)
 		{
-			update_lastmod();
+			if (in_array($target, $this->modified))
+			{
+				$this->source = $sources;
+				$this->target = $target;
+				$this->process();
+				$this->create_version();
+			}
 		}
 	}
 
@@ -323,7 +327,9 @@ class rah_minify
 	 */
 
 	protected function process()
-	{	
+	{
+		$data = array();
+
 		foreach ((array) $this->source as $path)
 		{
 			$data[] = file_get_contents($path);
@@ -344,12 +350,10 @@ class rah_minify
 		
 		if (file_put_contents($this->target, $this->output) === false)
 		{
-			trace_add('[rah_minify: writing to '.basename($this->target).' failed]');
-			return;
+			throw new Exception('Writing failed: '.$this->target);
 		}
 
 		touch($this->target);
-		trace_add('[rah_minify: '.basename($this->target).' updated]');
 	}
 
 	/**
@@ -364,23 +368,14 @@ class rah_minify
 		}
 
 		clearstatcache();
-
 		$ext = pathinfo($this->target, PATHINFO_EXTENSION);
 		$name = 'v.'.basename($this->target, '.'.$ext).'.'.filemtime($this->target).'.'.$ext;
 		$to = dirname($this->target).'/'.$name;
 
-		if (file_exists($to))
-		{
-			trace_add('[rah_minify: versioned '.$name.' already exists]');
-			return;
-		}
-
-		if (file_put_contents($to, $this->output) === false)
+		if (file_exists($to) === false && file_put_contents($to, $this->output) === false)
 		{
 			throw new Exception('Writing to '.$name.' failed');
 		}
-
-		trace_add('[rah_minify: created '.$name.']');
 	}
 
 	/**
@@ -421,11 +416,6 @@ class rah_minify
 
 	protected function compress_less()
 	{
-		if (!class_exists('lessc'))
-		{
-			throw new Exception('lessc class is unavailable');
-		}
-
 		$less = new lessc();
 
 		try
