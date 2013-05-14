@@ -129,10 +129,7 @@ class rah_minify
 
 	public function uninstall()
 	{
-		safe_delete(
-			'txp_prefs',
-			"name like 'rah\_minify\_%'"
-		);
+		safe_delete('txp_prefs', "name like 'rah\_minify\_%'");
 	}
 
 	/**
