@@ -245,7 +245,23 @@ class rah_minify
 			return;
 		}
 
-		$this->collect_files();
+		try
+		{
+			$this->collect_files();
+		}
+		catch (Exception $e)
+		{
+			callback_event('rah_minify.minify', 'fail', 0, array(
+				'files' => $this->files,
+				'error' => $e->getMessage(),
+			));
+
+			throw new Exception($e->getMessage());
+		}
+
+		callback_event('rah_minify.minify', 'done', 0, array(
+			'files' => $this->files,
+		));
 	}
 
 	/**
