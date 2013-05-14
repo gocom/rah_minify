@@ -201,7 +201,7 @@ class rah_minify
 		{
 			if (has_privs('prefs.rah_minify'))
 			{
-				echo announce('<strong>Rah_minify:</strong> ' . $e->getMessage(), E_WARNING);
+				echo announce('<strong>rah_minify:</strong> ' . $e->getMessage(), E_WARNING);
 			}
 		}
 	}
