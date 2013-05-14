@@ -158,7 +158,21 @@ class rah_minify
 
 		if (get_pref('rah_minify_key') && get_pref('rah_minify_key') === $rah_minify)
 		{
-			$this->handler();
+			try
+			{
+				$this->handler();
+			}
+			catch (Exception $e)
+			{
+				send_json_response(array(
+						'success' => false,
+						'error'   => $e->getMessage(),
+				));
+
+				die;
+			}
+
+			send_json_response(array('success' => true));
 			die;
 		}
 	}
@@ -171,7 +185,14 @@ class rah_minify
 	{
 		if (get_pref('production_status') != 'live')
 		{
-			$this->handler();
+			try
+			{
+				$this->handler();
+			}
+			catch (Exception $e)
+			{
+				trace_add('[rah_minify: '.$e->getMessage().']');
+			}
 		}
 	}
 
@@ -181,7 +202,17 @@ class rah_minify
 
 	public function admin_handler()
 	{
-		$this->handler();
+		try
+		{
+			$this->handler();
+		}
+		catch (Exception $e)
+		{
+			if (has_privs('prefs.rah_minify'))
+			{
+				echo announce('<strong>Rah_minify:</strong> ' . $e->getMessage(), E_WARNING);
+			}
+		}
 	}
 
 	/**
@@ -239,8 +270,7 @@ class rah_minify
 
 			if (!file_exists($path) || !is_file($path) || !is_readable($path))
 			{
-				trace_add('[rah_minify: '.basename($path).' (source) can not be read]');
-				continue;
+				throw new Exception(basename($path).' (source) can not be read');
 			}
 
 			$this->stack[$to][] = $path;
@@ -349,8 +379,7 @@ class rah_minify
 
 		if (file_put_contents($to, $this->output) === false)
 		{
-			trace_add('[rah_minify: writing to '.$name.' failed]');
-			return;
+			throw new Exception('Writing to '.$name.' failed');
 		}
 
 		trace_add('[rah_minify: created '.$name.']');
@@ -402,8 +431,7 @@ class rah_minify
 	{
 		if (!class_exists('lessc'))
 		{
-			trace_add('[rah_minify: lessc class is unavailable]');
-			return;
+			throw new Exception('lessc class is unavailable');
 		}
 
 		$less = new lessc();
@@ -414,8 +442,7 @@ class rah_minify
 		}
 		catch (exception $e)
 		{
-			trace_add('[rah_minify: LESSPHP said "'.$e->getMessage().'"]');
-			return;
+			throw new Exception('LESSPHP said: "'.$e->getMessage().'"');
 		}
 
 		$this->input = $this->output;
@@ -430,8 +457,7 @@ class rah_minify
 	{
 		if (!function_exists('curl_init'))
 		{
-			trace_add('[rah_minify: cURL is not installed]');
-			return;
+			throw new Exception('cURL is not installed');
 		}
 
 		$ch = curl_init();
@@ -454,7 +480,7 @@ class rah_minify
 
 		if ($this->output === false || $error)
 		{
-			trace_add('[rah_minify: unable connect to Closure Compiler Service API ('.$error.')]');
+			throw new Exception('Unable connect to Closure Compiler Service API: '.$error);
 		}
 	}
 
