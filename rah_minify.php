@@ -47,14 +47,6 @@ class rah_minify
 	protected $versions = false;
 
 	/**
-	 * Run the source with Textpattern tag parser.
-	 *
-	 * @var bool
-	 */
-
-	protected $parse = false;
-
-	/**
 	 * Current file path.
 	 *
 	 * @var string
@@ -99,7 +91,6 @@ class rah_minify
 				'key'      => array('text_input', md5(uniqid(mt_rand(), true))),
 				'files'    => array('pref_longtext_input', ''),
 				'versions' => array('yesnoradio', 0),
-				'parse'    => array('yesnoradio', 0),
 			) as $name => $val
 		)
 		{
@@ -212,7 +203,7 @@ class rah_minify
 
 	public function handler()
 	{
-		foreach (array('versions', 'files', 'parse') as $name)
+		foreach (array('versions', 'files') as $name)
 		{
 			$this->$name = get_pref('rah_minify_'.$name, $this->$name);
 		}
@@ -337,7 +328,6 @@ class rah_minify
 
 		$this->input = implode(n, $data);
 		$this->output = '';
-		$this->parse();
 
 		$method = 'compress_'.strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
@@ -375,19 +365,6 @@ class rah_minify
 		if (file_exists($to) === false && file_put_contents($to, $this->output) === false)
 		{
 			throw new Exception('Writing to '.$name.' failed');
-		}
-	}
-
-	/**
-	 * Parse Textpattern's tag markup in input.
-	 */
-
-	protected function parse()
-	{
-		if ($this->parse)
-		{
-			include_once txpath . '/publish.php';
-			$this->input = parse($this->input);
 		}
 	}
 

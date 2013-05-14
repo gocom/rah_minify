@@ -67,10 +67,6 @@ bc. ../assets/main.js ../assets/main.min.js
 
 p. For the above the created versioned file would be named as @v.main.min.1345269546.js@, written to the same assets directory.
 
-h3. Parse Textpattern tags?
-
-p. If set Yes, the source files are run through Textpattern's tag parser. This enables the use of Textpattern tags and PHP in the asset files. For instance, the "variable":http://textpattern.net/wiki/index.php?title=variable tag could make a great way to implement variables in stylesheets that store common values and colors.
-
 h2. Setting processed files
 
 p. Todo.
