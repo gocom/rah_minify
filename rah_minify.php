@@ -208,8 +208,6 @@ class rah_minify
 
 	/**
 	 * Handles initialization.
-	 *
-	 * @param string $event Callback event
 	 */
 
 	public function handler()
