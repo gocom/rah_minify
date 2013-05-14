@@ -4,5 +4,4 @@ rah_minify => Pakkaaja
 rah_minify_key => Julkisen soittopyyntö-osoitteen käyttämä tietoturva-avain
 rah_minify_files => Kompressoitavat tiedostot
 rah_minify_versions => Luo tiedostoista versio-otantoja?
-rah_minify_closure => Käytä Closure Compiler-palvelua?
 rah_minify_parse => Käsittele Textpattern tagit?

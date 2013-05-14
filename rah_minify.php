@@ -47,14 +47,6 @@ class rah_minify
 	protected $versions = false;
 
 	/**
-	 * Use Google Closure Compiler Service for JavaScript.
-	 *
-	 * @var bool
-	 */
-
-	protected $closure = false;
-
-	/**
 	 * Run the source with Textpattern tag parser.
 	 *
 	 * @var bool
@@ -107,7 +99,6 @@ class rah_minify
 				'key'      => array('text_input', md5(uniqid(mt_rand(), true))),
 				'files'    => array('pref_longtext_input', ''),
 				'versions' => array('yesnoradio', 0),
-				'closure'  => array('yesnoradio', 0),
 				'parse'    => array('yesnoradio', 0),
 			) as $name => $val
 		)
@@ -225,7 +216,7 @@ class rah_minify
 	{
 		global $rah_minify;
 
-		foreach (array('versions', 'files', 'closure', 'parse') as $name)
+		foreach (array('versions', 'files', 'parse') as $name)
 		{
 			$this->$name = get_pref('rah_minify_'.$name, $this->$name);
 		}
@@ -404,12 +395,6 @@ class rah_minify
 
 	protected function compress_js()
 	{
-		if ($this->closure)
-		{
-			$this->run_closure();
-			return;
-		}
-
 		$this->output = JSMin::minify($this->input);
 	}
 
@@ -447,41 +432,6 @@ class rah_minify
 
 		$this->input = $this->output;
 		$this->compress_css();
-	}
-
-	/**
-	 * Closure compiler.
-	 */
-
-	protected function run_closure()
-	{
-		if (!function_exists('curl_init'))
-		{
-			throw new Exception('cURL is not installed');
-		}
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, 'http://closure-compiler.appspot.com/compile');
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_FAILONERROR, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 90);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 90);
-		curl_setopt($ch, CURLOPT_POSTFIELDS,
-			'output_info=compiled_code'.
-			'&output_format=text'.
-			'&compilation_level=SIMPLE_OPTIMIZATIONS'.
-			'&js_code='.urlencode($this->input)
-		);
-
-		$this->output = curl_exec($ch);
-		$error = curl_errno($ch);
-		curl_close($ch);
-
-		if ($this->output === false || $error)
-		{
-			throw new Exception('Unable connect to Closure Compiler Service API: '.$error);
-		}
 	}
 
 	/**
