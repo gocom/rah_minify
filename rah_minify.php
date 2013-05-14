@@ -214,8 +214,6 @@ class rah_minify
 
 	public function handler()
 	{
-		global $rah_minify;
-
 		foreach (array('versions', 'files', 'parse') as $name)
 		{
 			$this->$name = get_pref('rah_minify_'.$name, $this->$name);
@@ -234,11 +232,6 @@ class rah_minify
 
 			$this->files = $files;
 		}
-
-		$this->files = array_merge(
-			(array) $rah_minify,
-			is_array($this->files) ? $this->files : array()
-		);
 
 		if (!$this->files)
 		{
