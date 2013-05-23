@@ -41,9 +41,7 @@ p. This setting sets the JavaScript and CSS files that are being compressed by r
 bc. source target
 source target [\n...]
 
-p. Where the source is the file that is being compressed and the target is the location where the compressed file is written to. The target and the source paths are separated by a space (U+0020). Compressed files are separated by line breaks (a single UNIX style linefeed).
-
-p. Using relative paths is possible too. A source or a target path that starts with @./@ or @../@ will be relative to the Textpattern's installation directory (e.g. @./textpattern@).
+p. Where the source is the file that is being compressed and the target is the location where the compressed file is written to. The target and the source paths are separated by a space (U+0020). Compressed files are separated by line breaks (a single UNIX style linefeed). All paths will be relative to the Textpattern's installation directory (e.g. @./textpattern@).
 
 p. The following would compress files named @main.js@, @extra.js@ and @default.css@ to @main.min.js@, @extra.min.js@ and @default.min.css@ respectfully, written to the same directory as the original source file. The files would be located in a @assets@ directory placed to the site's root, the same directory containing the @textpattern@ directory.
 
