@@ -216,7 +216,7 @@ class rah_minify
 			{
 				$file = explode(' ', $file);
 				$target = array_pop($file);
-				$files[$this->format_path(implode(' ', $file))] = $this->format_path($target);
+				$files[txpath.'/'.implode(' ', $file))] = txpath.'/'.$target;
 			}
 
 			$this->files = $files;
@@ -406,28 +406,6 @@ class rah_minify
 
 		$this->input = $this->output;
 		$this->compress_css();
-	}
-
-	/**
-	 * Formats a path.
-	 *
-	 * @param  string $path The path
-	 * @return string Formatted path
-	 */
-
-	protected function format_path($path)
-	{
-		if (strpos($path, './') === 0)
-		{
-			return txpath . '/' . substr($path, 2);
-		}
-
-		if (strpos($path, '../') === 0)
-		{
-			return dirname(txpath) . '/' . substr($path, 3);
-		}
-
-		return $path;
 	}
 }
 
