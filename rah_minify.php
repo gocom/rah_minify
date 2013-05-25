@@ -126,6 +126,9 @@ class rah_minify
 		register_callback(array($this, 'admin_handler'), 'admin_side', 'body_end');
 		register_callback(array($this, 'page_handler'), 'textpattern');
 		register_callback(array($this, 'endpoint'), 'textpattern');
+		register_callback(array($this, 'compress_css'), 'rah_minify.compress', 'css');
+		register_callback(array($this, 'compress_js'), 'rah_minify.compress', 'js');
+		register_callback(array($this, 'compress_less'), 'rah_minify.compress', 'less');
 	}
 
 	/**
@@ -328,16 +331,15 @@ class rah_minify
 
 		$this->input = implode(n, $data);
 		$this->output = '';
+		$ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
 
-		$method = 'compress_'.strtolower(pathinfo($path, PATHINFO_EXTENSION));
-
-		if (method_exists($this, $method))
+		if ($ext && has_handler('rah_minify.compress', $ext))
 		{
-			$this->$method();
+			$this->output = trim(callback_event('rah_minify.compress', $ext, 0, array(
+				'data' => $this->input,
+			)));
 		}
 
-		$this->output = trim($this->output);
-		
 		if (file_put_contents($this->target, $this->output) === false)
 		{
 			throw new Exception('Writing failed: '.$this->target);
@@ -369,43 +371,40 @@ class rah_minify
 	}
 
 	/**
-	 * Compresses JavaScript files.
+	 * Compresses JavaScript input.
 	 */
 
-	protected function compress_js()
+	protected function compress_js($event, $step, $data)
 	{
-		$this->output = JSMin::minify($this->input);
+		return JSMin::minify($data['data']);
 	}
 
 	/**
-	 * Compress CSS files.
+	 * Compresses CSS input.
 	 */
 
-	protected function compress_css()
+	protected function compress_css($event, $step, $data)
 	{
 		$cssmin = new CSSmin(false);
-		$this->output = $cssmin->run($this->input);
+		return $cssmin->run($data['data']);
 	}
 
 	/**
-	 * Processes and compresses LESS files.
+	 * Processes and compresses LESS input.
 	 */
 
-	protected function compress_less()
+	protected function compress_less($event, $step, $data)
 	{
 		$less = new lessc();
 
 		try
 		{
-			$this->output = $less->parse($this->input);
+			return $less->parse($data['data']);
 		}
-		catch (exception $e)
+		catch (Exception $e)
 		{
 			throw new Exception('LESSPHP said: "'.$e->getMessage().'"');
 		}
-
-		$this->input = $this->output;
-		$this->compress_css();
 	}
 }
 
