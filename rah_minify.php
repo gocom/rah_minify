@@ -396,7 +396,6 @@ class rah_minify
     protected function compress_less($event, $step, $data)
     {
         $less = new lessc();
-        $out = '';
 
         try
         {
