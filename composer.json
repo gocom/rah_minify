@@ -22,6 +22,7 @@
 		"textpattern/installer": "*",
 		"rah/rah_autoload": "*",
 		"leafo/lessphp": "0.3.*",
-		"linkorb/jsmin-php": "1.0.0"
+		"linkorb/jsmin-php": "1.0.0",
+        "tubalmartin/cssmin": "*@dev"
 	}
 }

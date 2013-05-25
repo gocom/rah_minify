@@ -1,9 +1,0 @@
-h1. Included source libraries
-
-p. These libraries are part of the plugin package.
-
-h2. CSSmin.php
-
-p. "YUI CSS compressor":https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port PHP port by "Túbal Martín":https://github.com/tubalmartin.
-
-p. Note: CSSMin class is renamed as rah_minify_CSSMin. This to comply with the Plugin Guide Lines and to avoid any collisions. We are a plugin after all.

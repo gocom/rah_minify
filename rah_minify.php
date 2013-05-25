@@ -383,7 +383,7 @@ class rah_minify
 
 	protected function compress_css()
 	{
-		$cssmin = new rah_minify_CSSmin(false);
+		$cssmin = new CSSmin(false);
 		$this->output = $cssmin->run($this->input);
 	}
 
