@@ -1,21 +1,21 @@
 {
-	"name": "rah/rah_minify",
-	"description": "Assets minifier for Textpattern CMS",
-	"keywords": ["textpattern", "plugin", "javascript", "css", "minify", "compress"],
-	"homepage": "https://github.com/gocom/rah_minify",
-	"license": "GPL-2.0",
-	"type": "textpattern-plugin",
-	"authors": [
-		{
-			"name": "Jukka Svahn",
-			"homepage": "http://rahforum.biz",
-			"role": "Developer"
-		}
-	],
-	"support": {
-		"issues": "https://github.com/gocom/rah_minify/issues",
-		"source": "https://github.com/gocom/rah_minify"
-	},
+    "name": "rah/rah_minify",
+    "description": "Assets minifier for Textpattern CMS",
+    "keywords": ["textpattern", "plugin", "javascript", "css", "minify", "compress"],
+    "homepage": "https://github.com/gocom/rah_minify",
+    "license": "GPL-2.0",
+    "type": "textpattern-plugin",
+    "authors": [
+        {
+            "name": "Jukka Svahn",
+            "homepage": "http://rahforum.biz",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gocom/rah_minify/issues",
+        "source": "https://github.com/gocom/rah_minify"
+    },
     "repositories": [
         {
             "type": "vcs",
@@ -23,13 +23,13 @@
         }
     ],
     "minimum-stability": "dev",
-	"require": {
-		"php": ">=5.2.0",
-		"textpattern/lock": "4.6.*",
-		"textpattern/installer": "*",
-		"rah/rah_autoload": "*",
-		"leafo/lessphp": "0.3.*",
-		"linkorb/jsmin-php": "1.0.0",
+    "require": {
+        "php": ">=5.2.0",
+        "textpattern/lock": "4.6.*",
+        "textpattern/installer": "*",
+        "rah/rah_autoload": "*",
+        "leafo/lessphp": "0.3.*",
+        "linkorb/jsmin-php": "1.0.0",
         "tubalmartin/cssmin": "*@dev"
-	}
+    }
 }
