@@ -16,9 +16,16 @@
 		"issues": "https://github.com/gocom/rah_minify/issues",
 		"source": "https://github.com/gocom/rah_minify"
 	},
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/gocom/YUI-CSS-compressor-PHP-port.git"
+        }
+    ],
+    "minimum-stability": "dev",
 	"require": {
 		"php": ">=5.2.0",
-		"textpattern/lock": "4.6.*,4.6.*@dev",
+		"textpattern/lock": "4.6.*",
 		"textpattern/installer": "*",
 		"rah/rah_autoload": "*",
 		"leafo/lessphp": "0.3.*",
