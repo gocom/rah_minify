@@ -7,6 +7,5 @@
 	"author_uri"  : "http://rahforum.biz",
 	"order"       : 1,
 	"flags"       : 2,
-	"help"        : {"file" : ["./README.textile"]},
-	"code"        : {"file" : ["./rah_minify.php", "./inc/cssmin.php"]}
+	"help"        : {"file" : ["./README.textile"]}
 }
