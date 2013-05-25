@@ -396,15 +396,19 @@ class rah_minify
     protected function compress_less($event, $step, $data)
     {
         $less = new lessc();
+        $out = '';
 
         try
         {
-            return $less->parse($data['data']);
+            $out = $less->parse($data['data']);
         }
         catch (Exception $e)
         {
             throw new Exception('LESSPHP said: "'.$e->getMessage().'"');
         }
+
+        $cssmin = new CSSmin(false);
+        return $cssmin->run($out);
     }
 }
 
