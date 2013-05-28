@@ -219,7 +219,7 @@ class rah_minify
             {
                 $file = explode(' ', $file);
                 $target = array_pop($file);
-                $files[txpath.'/'.implode(' ', $file))] = txpath.'/'.$target;
+                $files[txpath.'/'.implode(' ', $file)] = txpath.'/'.$target;
             }
 
             $this->files = $files;
