@@ -18,7 +18,7 @@ bc. {
     "minimum-stability": "dev"
 }
 
-p. The above lower your minimum-stability to development versions and adds link to our fork of "YUI CSS compressor":https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port PHP port by "Túbal Martín":https://github.com/tubalmartin. After done, you can run the installation like the usual:
+p. The above lower your minimum-stability to development versions and adds link to our fork of "YUI CSS compressor":https://github.com/tubalmartin/YUI-CSS-compressor-PHP-port PHP port by "Túbal Martín":https://github.com/tubalmartin. After done, you can run the installation:
 
 bc. $ composer.phar require rah/rah_minify
 
