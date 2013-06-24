@@ -411,4 +411,33 @@ class rah_minify
     }
 }
 
+/**
+ * Gets the versioned file.
+ *
+ * @param  array $atts
+ * @return string
+ * @example
+ * &lt;rah_minify name="../css/main.css" /&gt;
+ */
+
+function rah_minify($atts)
+{
+    extract(lAtts(array(
+        'name' => '',
+    ), $atts));
+
+    $file = txpath.'/'.$name;
+
+    if (!file_exists($file) || !is_file($file) || !is_readable($file))
+    {
+        trigger_error('Invalid name specified.');
+        return '';
+    }
+
+    $ext = pathinfo($file, PATHINFO_EXTENSION);
+    $file = 'v.'.basename($file, '.'.$ext).'.'.filemtime($file).'.'.$ext;
+
+    return txpspecialchars($file);
+}
+
 new rah_minify();
