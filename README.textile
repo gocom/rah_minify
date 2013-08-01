@@ -55,27 +55,27 @@ source target [\n...]
 
 p. Where the source is the file that is being compressed and the target is the location where the compressed file is written to. The target and the source paths are separated by a space (U+0020). Compressed files are separated by line breaks (a single UNIX style linefeed). All paths will be relative to the Textpattern's installation directory (e.g. @./textpattern@).
 
-p. The following would compress files named @main.js@, @extra.js@ and @default.css@ to @main.min.js@, @extra.min.js@ and @default.min.css@ respectfully, written to the same directory as the original source file. The files would be located in a @assets@ directory placed to the site's root, the same directory containing the @textpattern@ directory.
+p. The following would compress files named @main.js@, @extra.js@ and @default.css@, located in @assets/src/@, and write the results to the parent @assets@ directory. The files would be located in a @assets@ directory placed to the site's root, the same directory containing the @textpattern@ directory and your site's @index.php@ file.
 
-bc. ../assets/main.js ../assets/main.min.js
-../assets/extra.js ../assets/extra.min.js
-../assets/default.css ../assets/default.min.css
+bc. ../assets/src/main.js ../assets/main.js
+../assets/src/extra.js ../assets/extra.js
+../assets/src/default.css ../assets/default.css
 
 h3. Create snapshots?
 
-p. If set to Yes, additional timestamped files are created each time when a site's asset file is compressed. These files act as versions, written and modified just once. These files offer an way to "optimize caching of static resources":https://developers.google.com/speed/docs/best-practices/caching.
+p. If set to Yes, additional timestamped files are created each time an asset file is compressed. These files act as versions of the created files. These files offer an way to "optimize caching of static resources":https://developers.google.com/speed/docs/best-practices/caching.
 
-p. These timestamped versions of the assets are written to the same directory as the target file, the compressed version of the source file. These files follow the following naming pattern:
+p. These timestamped versions are written to the same target directory as the compressed file. Versioned files follow the naming pattern:
 
-bc. v.{targetName}.{timestamp}.{targetExtension}
+bc. {targetName}.{timestamp}.{targetExtension}
 
-p. Where in the {targetName} is the name of the target file (e.g. main.min), the {timestamp} is a Unix timestamp (e.g. 1345269546) and the {targetExtension} is the target files extension (e.g. css or js). The timestamp included in the filename is same as the target file's last modification date.
+p. Where in the @{targetName}@ is the name of the target file (e.g. main.min), the @{timestamp}@ is a Unix timestamp (e.g. 1345269546) and the @{targetExtension}@ is the target files extension (e.g. css or js). The timestamp included in the filename is same as the target file's modification date.
 
 p. Consider the following file pair:
 
-bc. ../assets/main.js ../assets/main.min.js
+bc. ../assets/src/main.js ../assets/main.js
 
-p. For the above the created versioned file would be named as @v.main.min.1345269546.js@, written to the same assets directory.
+p. The created versioned file would be named as @main.1345269546.js@, written to the same parent @assets@ directory as the minified @main.js@ file.
 
 h2. Setting processed files
 

@@ -360,8 +360,13 @@ class rah_minify
         }
 
         clearstatcache();
-        $ext = pathinfo($this->target, PATHINFO_EXTENSION);
-        $name = 'v.'.basename($this->target, '.'.$ext).'.'.filemtime($this->target).'.'.$ext;
+
+        $name = implode('.', array(
+            pathinfo($file, PATHINFO_FILENAME),
+            filemtime($this->target),
+            pathinfo($this->target, PATHINFO_EXTENSION),
+        ));
+
         $to = dirname($this->target).'/'.$name;
 
         if (file_exists($to) === false && file_put_contents($to, $this->output) === false)
@@ -434,8 +439,11 @@ function rah_minify($atts)
         return '';
     }
 
-    $ext = pathinfo($file, PATHINFO_EXTENSION);
-    $file = 'v.'.basename($file, '.'.$ext).'.'.filemtime($file).'.'.$ext;
+    $file = implode('.', array(
+        pathinfo($file, PATHINFO_FILENAME),
+        filemtime($file),
+        pathinfo($file, PATHINFO_EXTENSION),
+    ));
 
     return txpspecialchars($file);
 }
